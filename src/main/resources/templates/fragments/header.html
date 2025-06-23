@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="headerFragment">
+    <header class="bg-primary container position-relative">
+        <div class="d-flex justify-content-between align-items-center position-relative" style="height: 80px;">
+
+            <!-- 메뉴 -->
+            <div class="menu-container">
+                <a href="#" onclick="toggleSubMenu(event)">
+                    <img src="https://www.iconninja.com/files/240/341/294/menu-icon.png" width="40" height="40" alt="menu">
+                </a>
+
+                <div class="dropdown-menu" id="main1">
+                    <ul>
+                        <li><a href="#">회원가입</a></li>
+                        <li><a href="#">로그인</a></li>
+                        <li><a href="#">마이 페이지</a></li>
+                        <li><a href="mailto:rlaqnwksp@gmail.com">문의</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 현재 위치 텍스트 -->
+            <div class="location">
+                <h1>서울시 강남구</h1>
+            </div>
+
+            <!-- 검색 -->
+            <div class="search-box-wrapper" style="z-index: 2;">
+                <div class="search-box">
+                    <form class="d-flex align-items-center">
+                        <input class="search-txt" type="text" placeholder="검색어를 입력해 주세요">
+                        <button class="search-btn" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        function toggleSubMenu(event) {
+          event.preventDefault();
+          const menu = document.getElementById("main1");
+          const isVisible = window.getComputedStyle(menu).display === "block";
+          menu.style.display = isVisible ? "none" : "block";
+        }
+
+        window.addEventListener("click", function (e) {
+          const menu = document.getElementById("main1");
+          const trigger = document.querySelector(".menu-container a");
+          if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+            menu.style.display = "none";
+          }
+        });
+    </script>
+</th:block>
+</html>
