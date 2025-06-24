@@ -4,7 +4,93 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout/defaultLayout}">
 <th:block layout:fragment="content">
-    <section class="contents d-flex justify-content-center">
+    <!-- 오늘 날씨 -->
+    <section class="container contents d-flex align-items-center">
+        <section class="now-temperature">
+            <div>현재기온</div>
+            <h1>30℃</h1>
+        </section>
+        <section class="today-temperature">
+            <article class="today-high">
+                <div>최고온도</div>
+                <div>33℃</div>
+            </article>
+            <article class="today-low">
+                <div>28℃</div>
+                <div>최저온도</div>
+            </article>
+        </section>
+    </section>
 
+    <!-- 주간예보 -->
+    <section class="container bg-light">
+        <h3 class="d-flex justify-content-center align-items-center" style="height:100px;">주간예보</h3>
+        <div class="weekend-weather d-flex justify-content-between align-items-center">
+            <article class="weekend-weather-box">
+<!--                    TODO-->
+<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="weekend-weather-low">26</div>
+                    /
+                    <div class="weekend-weather-high">30</div>
+                </div>
+                <div class="day-of-the-week">월</div>
+            </article>
+            <article class="weekend-weather-box">
+<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="weekend-weather-low">26</div>
+                    /
+                    <div class="weekend-weather-high">30</div>
+                </div>
+                <div class="day-of-the-week">월</div>
+            </article>
+            <article class="weekend-weather-box">
+<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="weekend-weather-low">26</div>
+                    /
+                    <div class="weekend-weather-high">30</div>
+                </div>
+                <div class="day-of-the-week">월</div>
+            </article>
+            <article class="weekend-weather-box">
+<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="weekend-weather-low">26</div>
+                    /
+                    <div class="weekend-weather-high">30</div>
+                </div>
+                <div class="day-of-the-week">월</div>
+            </article>
+            <article class="weekend-weather-box">
+<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="weekend-weather-low">26</div>
+                    /
+                    <div class="weekend-weather-high">30</div>
+                </div>
+                <div class="day-of-the-week">월</div>
+            </article>
+            <article class="weekend-weather-box">
+<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="weekend-weather-low">26</div>
+                    /
+                    <div class="weekend-weather-high">30</div>
+                </div>
+                <div class="day-of-the-week">월</div>
+            </article>
+            <article class="weekend-weather-box">
+<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="weekend-weather-low">26</div>
+                    /
+                    <div class="weekend-weather-high">30</div>
+                </div>
+                <div class="day-of-the-week">월</div>
+            </article>
+        </div>
+    </section>
     </section>
 </th:block>
