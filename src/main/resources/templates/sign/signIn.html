@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/defaultLayout}">
+<th:block layout:fragment="content">
+    <section class="container content py-4" width="650px">
+        <h3 class="d-flex justify-content-center align-items-center" style="height:100px;">로그인</h3>
+
+        <div class="container p-4">
+            <form id="sign-in-form" method="post" action="/sign/sign-in">
+                <!-- 아이디 -->
+                <div class="d-flex justify-content-center">
+                    <div class="sign-in-input mb-3">
+                        <label for="loginId" class="form-label">아이디</label>
+                        <input type="text" class="form-control" id="loginId" name="loginId" placeholder="아이디를 입력하세요">
+                    </div>
+                </div>
+
+                <!-- 비밀번호 -->
+                <div class="d-flex justify-content-center">
+                    <div class="sign-in-input mb-3">
+                        <label for="password" class="form-label">비밀번호</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
+                    </div>
+                </div>
+
+                <!-- 카카오 로그인 구현 -->
+                <div class="d-flex justify-content-center py-3">
+                    <a href="#" class="btn btn-warning text-white sign-in-input">카카오 로그인</a>
+                </div>
+
+                <div class="sign-in-input mt-3" style="margin: auto">
+                    <div class="d-flex justify-content-between">
+                        <a href="/sign/sign-up" class="btn btn-secondary" style="width:48%">회원가입</a>
+                        <button type="submit" id="loginBtn" class="btn btn-info text-white" style="width:48%">로그인</button>
+                    </div>
+                </div>
+
+                <div class="sign-in-input mt-3" style="margin: auto">
+                    <div class="d-flex justify-content-between">
+                        <a href="/sign/help-id">
+                            <small>아이디 찾기</small>
+                        </a>
+                        <a href="/sign/help-pw">
+                            <small>비밀번호 찾기</small>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        $(function(){
+            $("#loginBtn").on("click", function(e){
+                e.preventDefault();
+
+                let loginId = $("#loginId").val().trim();
+                let password = $("#password").val().trim();
+
+                if(!loginId){
+                    alert("아이디를 입력하세요.");
+                    return;
+                }
+                if(!password){
+                    alert("비밀번호를 입력하세요.");
+                    return;
+                }
+
+                let url = $("#sign-in-form").attr("action");
+                let params = $("#sign-in-form").serialize();
+
+                console.log(url)
+
+                $.post(url, params)
+                .done(function(data) {
+                    if (data.result == "success") {
+                        location.href = "/timeline";
+                    } else {
+                        alert(data.error_message);
+                    }
+                });
+            });
+        });
+    </script>
+</th:block>

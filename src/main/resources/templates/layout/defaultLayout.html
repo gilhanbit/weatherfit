@@ -10,7 +10,9 @@
     <th:block th:replace="fragments/header :: headerFragment"></th:block>
 
     <!-- 매번 달라지는 컨텐츠 영역 -->
-    <th:block layout:fragment="content"></th:block>
+    <main class="content-wrapper">
+        <th:block layout:fragment="content"></th:block>
+    </main>
 
     <!-- footer 공통 영역 -->
     <th:block th:replace="fragments/footer :: footerFragment"></th:block>
