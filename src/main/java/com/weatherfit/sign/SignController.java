@@ -17,4 +17,24 @@ public class SignController {
     public String signUp(){
         return "sign/signUp";
     }
+
+    @GetMapping("/help-id")
+    public String helpId(){
+        return "sign/helpId";
+    }
+
+    @GetMapping("/check-id")
+    public String checkId(){
+        return "sign/checkId";
+    }
+
+    @GetMapping("/help-pw")
+    public String helpPw(){
+        return "sign/helpPw";
+    }
+
+    @GetMapping("/extra-pw")
+    public String extraPw(){
+        return "sign/extraPw";
+    }
 }

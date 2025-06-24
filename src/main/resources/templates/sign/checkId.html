@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/defaultLayout}">
+<th:block layout:fragment="content">
+    <section class="container content py-4" width="650px">
+        <h3 class="d-flex justify-content-center align-items-center" style="height:100px;">회원님의 아이디를 확인해 주세요</h3>
+
+        <div class="container p-4">
+            <!-- 아이디 존재여부 확인-->
+            <div class="d-flex justify-content-center">
+                <div class="help-id-input mb-3">
+<!--                    TODO 있을 경우 아이디 나타남-->
+                    <span></span>
+<!--                    TODO 없을 경우-->
+                    <span>아이디가 존재하지 않습니다</span>
+                </div>
+            </div>
+
+            <div class="help-id-input mt-3" style="margin: auto">
+                <div class="d-flex justify-content-between">
+                    <a href="/sign/help-pw" class="btn btn-secondary" style="width:48%">비밀번호 찾기</a>
+                    <a href="/sign/sign-in" class="btn btn-info" style="width:48%">로그인</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        $(function(){
+            $("#loginBtn").on("click", function(e){
+                e.preventDefault();
+
+                let loginId = $("#loginId").val().trim();
+                let password = $("#password").val().trim();
+
+                if(!loginId){
+                    alert("아이디를 입력하세요.");
+                    return;
+                }
+                if(!password){
+                    alert("비밀번호를 입력하세요.");
+                    return;
+                }
+
+                let url = $("#sign-in-form").attr("action");
+                let params = $("#sign-in-form").serialize();
+
+                console.log(url)
+
+                $.post(url, params)
+                .done(function(data) {
+                    if (data.result == "success") {
+                        location.href = "/timeline";
+                    } else {
+                        alert(data.error_message);
+                    }
+                });
+            });
+        });
+    </script>
+</th:block>

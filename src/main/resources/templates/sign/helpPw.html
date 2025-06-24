@@ -5,45 +5,47 @@
         layout:decorate="~{layout/defaultLayout}">
 <th:block layout:fragment="content">
     <section class="container content py-4" width="650px">
-        <h3 class="d-flex justify-content-center align-items-center" style="height:100px;">로그인</h3>
+        <h3 class="d-flex justify-content-center align-items-center" style="height:100px;">비밀번호 찾기</h3>
 
         <div class="container p-4">
-            <form id="sign-in-form" method="post" action="/sign/sign-in">
+            <form id="help-pw-form" method="post" action="/sign/help-pw">
                 <!-- 아이디 -->
                 <div class="d-flex justify-content-center">
-                    <div class="sign-in-input mb-3">
+                    <div class="help-pw-input mb-3">
                         <label for="loginId" class="form-label">아이디</label>
                         <input type="text" class="form-control" id="loginId" name="loginId" placeholder="아이디를 입력하세요">
                     </div>
                 </div>
 
-                <!-- 비밀번호 -->
+                <!-- 이름 -->
                 <div class="d-flex justify-content-center">
-                    <div class="sign-in-input mb-3">
-                        <label for="password" class="form-label">비밀번호</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
+                    <div class="help-pw-input mb-3">
+                        <label for="name" class="form-label">이름</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요">
                     </div>
                 </div>
 
-                <!-- 카카오 로그인 구현 -->
-                <div class="d-flex justify-content-center py-3">
-                    <a href="#" class="btn btn-warning text-white sign-in-input">카카오 로그인</a>
-                </div>
-
-                <div class="sign-in-input mt-3" style="margin: auto">
-                    <div class="d-flex justify-content-between">
-                        <a href="/sign/sign-up" class="btn btn-secondary" style="width:48%">회원가입</a>
-                        <button type="submit" id="loginBtn" class="btn btn-info text-white" style="width:48%">로그인</button>
+                <!-- 이메일 -->
+                <div class="d-flex justify-content-center">
+                    <div class="help-pw-input mb-3">
+                        <label for="email" class="form-label">이메일</label>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요">
                     </div>
                 </div>
 
-                <div class="sign-in-input mt-3" style="margin: auto">
+                <div class="d-flex justify-content-center">
+                    <div class="mt-3">
+                        <button type="submit" id="loginBtn" class="btn btn-info text-white" style="width:350px;">비밀번호 찾기</button>
+                    </div>
+                </div>
+
+                <div class="help-pw-input mt-3" style="margin: auto">
                     <div class="d-flex justify-content-between">
-                        <a href="/sign/help-id">
-                            <small>아이디 찾기</small>
+                        <a href="/sign/sign-up">
+                            <small>회원가입</small>
                         </a>
-                        <a href="/sign/help-pw">
-                            <small>비밀번호 찾기</small>
+                        <a href="/sign/sign-in">
+                            <small>로그인</small>
                         </a>
                     </div>
                 </div>
