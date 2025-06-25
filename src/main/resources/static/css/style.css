@@ -190,3 +190,18 @@ footer {
 .help-pw-input {
     width: 350px;
 }
+
+
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+/* 마이 페이지 */
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+.wrap-vertical{
+  width: 1140px;
+  overflow: scroll;
+  color: #112031;
+  border: 1px solid #000;
+   /* 가로 스크롤 */
+  overflow: auto;
+  white-space: nowrap;
+}
