@@ -6,11 +6,11 @@
 <th:block layout:fragment="content">
     <section class="container contents d-flex justify-content-between align-items-end">
         <span>
-            <h3>OOO님의 콕 리스트</h3>
+            <h3>상품 리스트</h3>
         </span>
     </section>
 
-    <!-- 한 페이지 5-10개 -->
+    <!-- 한 페이지 30개 -->
     <section>
         <!-- th:each -->
         <div class="container d-flex mt-3">
@@ -38,33 +38,9 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center align-items-center col-2">
-                <a href="#" class="deleteBtn">
-                    <img src="https://www.iconninja.com/files/512/953/150/trash-icon.png" width="15" height="20">
+                <a href="#" class="addBtn">
+                    <img src="https://www.iconninja.com/files/800/185/120/add-icon.png" width="20" height="20">
                 </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 페이징 마크업 -->
-    <section class="container d-flex justify-content-center align-items-center">
-        <div class="pageInfo_wrap">
-            <div class="pageInfo_area">
-                <ul id="pageInfo" class="pageInfo">
-                <!-- 이전페이지 버튼 -->
-<!--                <c:if test="${pageMaker.prev}">-->
-                    <li class="pageInfo_btn previous"><a href="${pageMaker.startPage-1}">Previous</a></li>
-<!--                </c:if>-->
-
-<!--                &lt;!&ndash; 각 번호 페이지 버튼 &ndash;&gt;-->
-<!--                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">-->
-<!--                    <li class="pageInfo_btn"><a href="${num}">${num}</a></li>-->
-<!--                </c:forEach>-->
-
-                <!-- 다음페이지 버튼 -->
-<!--                <c:if test="${pageMaker.next}">-->
-                    <li class="pageInfo_btn next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
-<!--                </c:if>-->
-                </ul>
             </div>
         </div>
     </section>
