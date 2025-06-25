@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/defaultLayout}">
+<th:block layout:fragment="content">
+    <!-- 유저 정보 -->
+    <section class="container contents d-flex justify-content-between align-items-end">
+        <span>
+            <h3>OOO님 안녕하세요</h3>
+        </span>
+        <a href="#" class="more-btn" data-toggle="modal" data-target="#modal">
+            회원탈퇴
+        </a>
+    </section>
+    <div class="container">
+        <span>아이디 응답</span>
+    </div>
+
+    <!-- 유저 정보 변경 -->
+    <section class="container contents bg-light rounded d-flex align-items-center">
+        <section>
+            <div class="mb-4">변경 비밀번호</div>
+            <div class="mb-4">변경 비밀번호 확인</div>
+            <div>이메일</div>
+        </section>
+        <section>
+            <div class="sign-up-input mb-2">
+                <input type="text" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
+            </div>
+            <div class="sign-up-input mb-2">
+                <input type="text" class="form-control" id="checkPassword" name="checkPassword" placeholder="비밀번호를 입력하세요">
+            </div>
+            <div class="sign-up-input d-flex align-items-center">
+                <input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요">
+            </div>
+        </section>
+        <small style="margin-top:93px;">사용 중인 이메일: example@gmail.com</small>
+        <section>
+            <button type="submit" id="infoSaveBtn" class="btn btn-secondary">저장</button>
+        </section>
+    </section>
+
+    <!-- 유저 스타일 -->
+    <div class="container d-flex justify-content-start align-items-end" style="height:150px;">
+        <h3>선호 스타일</h3>
+    </div>
+    <section class="container contents bg-light rounded d-flex justify-content-start align-items-center">
+        <section style="margin-left:130px;">
+            <div class="mb-4">상의</div>
+            <div class="mb-4">하의</div>
+            <div>신발</div>
+        </section>
+        <section style="margin-left:90px;">
+            <div class="d-flex align-items-center mb-4">
+                <select class="text-center" style="width:350px;">
+                    <option>캐주얼</option>
+                    <option>스포티</option>
+                    <option>스트릿</option>
+                    <option>클래식</option>
+                    <option>미니멀</option>
+                    <option>로맨틱</option>
+                </select>
+            </div>
+            <div class="d-flex align-items-center mb-4">
+                <select class="text-center" style="width:350px;">
+                    <option>캐주얼</option>
+                    <option>스포티</option>
+                    <option>스트릿</option>
+                    <option>클래식</option>
+                    <option>미니멀</option>
+                    <option>스커트</option>
+                </select>
+            </div>
+            <div class="d-flex align-items-center">
+                <select class="text-center" style="width:350px;">
+                    <option>운동화</option>
+                    <option>단화</option>
+                    <option>구두</option>
+                    <option>힐</option>
+                    <option>부츠</option>
+                    <option>슬리퍼</option>
+                </select>
+            </div>
+        </section>
+        <section>
+            <div class="mb-4">캐주얼</div>
+            <div class="mb-4">미니멀</div>
+            <div>운동화</div>
+        </section>
+        <section style="margin-left:180px;">
+            <button type="submit" id="styleSaveBtn" class="btn btn-secondary">저장</button>
+        </section>
+    </section>
+
+    <!-- 콕 리스트 (랜덤하게 가져오는 것보다 desc로 가져오는 것이 현재 날씨와 적합) -->
+    <div class="container d-flex justify-content-start align-items-end" style="height:150px;">
+        <h3>콕 리스트</h3>
+    </div>
+    <section class="container">
+        <div class="wrap-vertical custom-style d-flex justify-content-between align-items-center">
+            <div class="custom-style-box d-flex justify-content-center align-items-center">
+                <a href="https://www.musinsa.com/products/5108154">
+                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250513/5108154/5108154_17472128265340_big.jpg?w=1200" width="300px" height="400px">
+                </a>
+            </div>
+            <div class="custom-style-box d-flex justify-content-center align-items-center">
+                <a href="https://www.musinsa.com/products/4817239">
+                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250221/4817239/4817239_17490247132938_big.jpg?w=1200" width="300px" height="400px">
+                </a>
+            </div>
+            <div class="custom-style-box d-flex justify-content-center align-items-center">
+                <a href="https://www.musinsa.com/products/4827479">
+                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250225/4827479/4827479_17437342462925_big.png?w=1200" width="300px" height="400px">
+                </a>
+            </div>
+            <div class="custom-style-box d-flex justify-content-center align-items-center">
+                <a href="https://www.musinsa.com/products/5108154">
+                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250513/5108154/5108154_17472128265340_big.jpg?w=1200" width="300px" height="400px">
+                </a>
+            </div>
+            <div class="custom-style-box d-flex justify-content-center align-items-center">
+                <a href="https://www.musinsa.com/products/4817239">
+                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250221/4817239/4817239_17490247132938_big.jpg?w=1200" width="300px" height="400px">
+                </a>
+            </div>
+            <div class="custom-style-box d-flex justify-content-center align-items-center">
+                <a href="https://www.musinsa.com/products/4827479">
+                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250225/4827479/4827479_17437342462925_big.png?w=1200" width="300px" height="400px">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="py-3 border-bottom">
+                    <a href="#" id="">사용하기 불편함</a>
+                </div>
+                <div class="py-3 border-bottom">
+                    <a href="#" id="">기능이 부족함</a>
+                </div>
+                <div class="py-3 border-bottom">
+                    <a href="#" id="">더이상 사용하지 않음</a>
+                </div>
+                <div class="py-3">
+                    <a href="#" data-dismiss="modal">취소</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

@@ -13,6 +13,11 @@ public class SignController {
         return "sign/signIn";
     }
 
+    @GetMapping("/sign-out")
+    public String signOut(){
+        return "redirect:/main/mainPage";
+    }
+
     @GetMapping("/sign-up")
     public String signUp(){
         return "sign/signUp";
