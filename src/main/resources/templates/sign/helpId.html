@@ -8,7 +8,7 @@
         <h3 class="d-flex justify-content-center align-items-center" style="height:100px;">아이디 찾기</h3>
 
         <div class="container p-4">
-            <form id="help-id-form" method="post" action="/sign/help-id">
+            <form id="help-id-form" method="post" action="/sign/check">
                 <!-- 이름 -->
                 <div class="d-flex justify-content-center">
                     <div class="help-id-input mb-3">
@@ -27,7 +27,7 @@
 
                 <div class="d-flex justify-content-center">
                     <div class="mt-3">
-                        <button type="submit" id="loginBtn" class="btn btn-info text-white" style="width:350px;">아이디 찾기</button>
+                        <button type="submit" id="findBtn" class="btn btn-info text-white" style="width:350px;">아이디 찾기</button>
                     </div>
                 </div>
 
@@ -47,7 +47,7 @@
 
     <script>
         $(function(){
-            $("#loginBtn").on("click", function(e){
+            $("#findBtn").on("click", function(e){
                 e.preventDefault();
 
                 let name = $("#name").val().trim();
@@ -62,17 +62,7 @@
                     return;
                 }
 
-                let url = $("#help-id-form").attr("action");
-                let params = $("#help-id-form").serialize();
-
-                console.log(url)
-
-                $.post(url, params)
-                .done(function(data) {
-                    if (data.code=200) {
-                        location.href = "/sign/check-id";
-                    }
-                });
+                $("#help-id-form").submit();
             });
         });
     </script>

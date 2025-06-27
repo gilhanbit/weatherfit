@@ -77,22 +77,4 @@ public class SignRestController {
             return ApiResponse.onFail(ErrorStatus.BAD_REQUEST);
         }
     }
-
-    @PostMapping("/findLoginId")
-    public ResponseEntity<ApiResponse<UserEntity>> helpId(
-            @RequestParam("name") String name,
-            @RequestParam("email") String email,
-            Model model
-    ){
-
-        UserEntity user = signBO.findUserLoginId(name, email);
-
-        if (user != null) {
-            model.addAttribute("user", user);
-        } else {
-            model.addAttribute("user", null);
-        }
-
-        return ApiResponse.onSuccess(SuccessStatus.OK, user);
-    }
 }
