@@ -1,8 +1,11 @@
 package com.weatherfit.sign;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/sign")
 @Controller
@@ -14,8 +17,12 @@ public class SignController {
     }
 
     @GetMapping("/sign-out")
-    public String signOut(){
-        return "redirect:/main/mainPage";
+    public String signOut(HttpSession session) {
+        session.removeAttribute("userId");
+        session.removeAttribute("userName");
+        session.removeAttribute("userLoginId");
+
+        return "redirect:/weatherfit/main";
     }
 
     @GetMapping("/sign-up")
@@ -24,13 +31,12 @@ public class SignController {
     }
 
     @GetMapping("/help-id")
-    public String helpId(){
-        return "sign/helpId";
-    }
+    public String helpId(@RequestParam("name") String name,
+                         @RequestParam("email") String email,
+                         Model model
+    ){
 
-    @GetMapping("/check-id")
-    public String checkId(){
-        return "sign/checkId";
+        return "redirect:/sign/helpId";
     }
 
     @GetMapping("/help-pw")

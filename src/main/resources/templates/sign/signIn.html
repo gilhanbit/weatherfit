@@ -75,10 +75,10 @@
 
                 $.post(url, params)
                 .done(function(data) {
-                    if (data.result == "success") {
-                        location.href = "/timeline";
+                    if (data.code == "200") {
+                        location.href = "/weatherfit/main";
                     } else {
-                        alert(data.error_message);
+                        alert("로그인에 실패했습니다.");
                     }
                 });
             });

@@ -1,4 +1,4 @@
-package com.weatherfit.sign.entity;
+package com.weatherfit.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Getter
 @Table(name = "user")
 @Entity
-public class SignEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

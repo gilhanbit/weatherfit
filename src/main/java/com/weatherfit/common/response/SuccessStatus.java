@@ -18,6 +18,7 @@ public enum SuccessStatus implements BaseCode {
     public ResponseDTO getResponse() {
         return ResponseDTO.builder()
                 .isSuccess(true)
+                .httpStatus(httpStatus)
                 .code(code)
                 .message(message)
                 .build();

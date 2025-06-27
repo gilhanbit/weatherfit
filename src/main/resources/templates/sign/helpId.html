@@ -50,29 +50,27 @@
             $("#loginBtn").on("click", function(e){
                 e.preventDefault();
 
-                let loginId = $("#loginId").val().trim();
-                let password = $("#password").val().trim();
+                let name = $("#name").val().trim();
+                let email = $("#email").val().trim();
 
-                if(!loginId){
-                    alert("아이디를 입력하세요.");
+                if(!name){
+                    alert("이름을 입력하세요.");
                     return;
                 }
-                if(!password){
-                    alert("비밀번호를 입력하세요.");
+                if(!email){
+                    alert("이메일을 입력하세요.");
                     return;
                 }
 
-                let url = $("#sign-in-form").attr("action");
-                let params = $("#sign-in-form").serialize();
+                let url = $("#help-id-form").attr("action");
+                let params = $("#help-id-form").serialize();
 
                 console.log(url)
 
                 $.post(url, params)
                 .done(function(data) {
-                    if (data.result == "success") {
-                        location.href = "/timeline";
-                    } else {
-                        alert(data.error_message);
+                    if (data.code=200) {
+                        location.href = "/sign/check-id";
                     }
                 });
             });

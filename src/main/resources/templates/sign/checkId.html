@@ -12,9 +12,9 @@
             <div class="d-flex justify-content-center">
                 <div class="help-id-input mb-3">
 <!--                    TODO 있을 경우 아이디 나타남-->
-                    <span></span>
+                    <span th:if="${user != null}" th:text="${user.loginId}"></span>
 <!--                    TODO 없을 경우-->
-                    <span>아이디가 존재하지 않습니다</span>
+                    <span th:unless="${user != null}">아이디가 존재하지 않습니다</span>
                 </div>
             </div>
 
@@ -26,38 +26,4 @@
             </div>
         </div>
     </section>
-
-    <script>
-        $(function(){
-            $("#loginBtn").on("click", function(e){
-                e.preventDefault();
-
-                let loginId = $("#loginId").val().trim();
-                let password = $("#password").val().trim();
-
-                if(!loginId){
-                    alert("아이디를 입력하세요.");
-                    return;
-                }
-                if(!password){
-                    alert("비밀번호를 입력하세요.");
-                    return;
-                }
-
-                let url = $("#sign-in-form").attr("action");
-                let params = $("#sign-in-form").serialize();
-
-                console.log(url)
-
-                $.post(url, params)
-                .done(function(data) {
-                    if (data.result == "success") {
-                        location.href = "/timeline";
-                    } else {
-                        alert(data.error_message);
-                    }
-                });
-            });
-        });
-    </script>
 </th:block>

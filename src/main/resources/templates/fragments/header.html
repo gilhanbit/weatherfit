@@ -12,11 +12,19 @@
 
                 <div class="dropdown-menu" id="main1">
                     <ul>
-                        <li><a href="#">회원가입</a></li>
+                        <li><a href="/sign/sign-up">회원가입</a></li>
                         <!-- 로그인 / 로그아웃 상태에 따라 하나만 나타나도록 구현 -->
-                        <li><a href="#">로그인</a></li>
-                        <li><a href="/sign/sign-out">로그아웃</a></li>
-                        <li><a href="#">마이 페이지</a></li>
+                        <span th:unless="${session.userName != null}">
+                            <li>
+                                <a href="/sign/sign-in">로그인</a>
+                            </li>
+                        </span>
+                        <span th:if="${session.userName != null}">
+                            <li>
+                                <a href="/sign/sign-out">로그아웃</a>
+                            </li>
+                        </span>
+                        <li><a href="/user/mypage">마이 페이지</a></li>
                         <li><a href="mailto:rlaqnwksp@gmail.com">문의</a></li>
                     </ul>
                 </div>
