@@ -1,6 +1,7 @@
 package com.weatherfit.sign.service;
 
 import com.weatherfit.user.entity.UserEntity;
+import com.weatherfit.user.mapper.UserMapper;
 import com.weatherfit.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @Service
 public class SignBO {
 
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
 
     public boolean setUser(String loginId, String password, String name, String email) {
@@ -49,6 +51,14 @@ public class SignBO {
     }
 
     public UserEntity findUserLoginId(String name, String email) {
-            return userRepository.findByNameAndEmail(name, email).orElse(null);
+        return userRepository.findByNameAndEmail(name, email).orElse(null);
+    }
+
+    public UserEntity findUserPw(String loginId, String name, String email) {
+        return userRepository.findByLoginIdAndNameAndEmail(loginId, name, email).orElse(null);
+    }
+
+    public void updatePw(String loginId, String name, String email, String newPw) {
+        userMapper.updatePw(loginId, name, email, newPw);
     }
 }

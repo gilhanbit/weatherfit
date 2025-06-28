@@ -11,10 +11,8 @@
             <!-- 아이디 존재여부 확인-->
             <div class="d-flex justify-content-center">
                 <div class="help-id-input mb-3">
-<!--                    TODO 있을 경우 아이디 나타남-->
                     <span th:if="${user != null}" th:text="${user.loginId}"></span>
-<!--                    TODO 없을 경우-->
-                    <span th:unless="${user != null}">아이디가 존재하지 않습니다</span>
+                    <span th:unless="${user != null}" th:text="${cantFindId}"></span>
                 </div>
             </div>
 

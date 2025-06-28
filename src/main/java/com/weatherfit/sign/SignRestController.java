@@ -9,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -23,20 +21,24 @@ public class SignRestController {
 
     private final SignBO signBO;
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<ApiResponse<Void>> signUp(
+    @PostMapping("/sign-in")
+    public ResponseEntity<ApiResponse<Void>> signIn(
             @RequestParam("loginId") String loginId,
             @RequestParam("password") String password,
-            @RequestParam("name") String name,
-            @RequestParam("email") String email
+            HttpServletRequest request
     ){
 
-        boolean user = signBO.setUser(loginId, password, name, email);
+        UserEntity user = signBO.getUser(loginId, password);
 
-        if(user == true) {
-            return ApiResponse.onSuccess(SuccessStatus.CREATED, null);
+        if (user != null) {
+            // 로그인 성공 시 서버에 세션 공간을 만들어둔다.
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", user.getId());
+            session.setAttribute("userName", user.getName());
+            session.setAttribute("userLoginId", user.getLoginId());
+            return ApiResponse.onSuccess(SuccessStatus.OK, null);
         } else {
-            return ApiResponse.onFail(ErrorStatus.INTERNAL_ERROR);
+            return ApiResponse.onFail(ErrorStatus.BAD_REQUEST);
         }
     }
 
@@ -57,24 +59,20 @@ public class SignRestController {
         }
     }
 
-    @PostMapping("/sign-in")
-    public ResponseEntity<ApiResponse<Void>> signIn(
+    @PostMapping("/sign-up")
+    public ResponseEntity<ApiResponse<Void>> signUp(
             @RequestParam("loginId") String loginId,
             @RequestParam("password") String password,
-            HttpServletRequest request
+            @RequestParam("name") String name,
+            @RequestParam("email") String email
     ){
 
-        UserEntity user = signBO.getUser(loginId, password);
+        boolean user = signBO.setUser(loginId, password, name, email);
 
-        if (user != null) {
-            // 로그인 성공 시 서버에 세션 공간을 만들어둔다.
-            HttpSession session = request.getSession();
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("userName", user.getName());
-            session.setAttribute("userLoginId", user.getLoginId());
-            return ApiResponse.onSuccess(SuccessStatus.OK, null);
+        if(user == true) {
+            return ApiResponse.onSuccess(SuccessStatus.CREATED, null);
         } else {
-            return ApiResponse.onFail(ErrorStatus.BAD_REQUEST);
+            return ApiResponse.onFail(ErrorStatus.INTERNAL_ERROR);
         }
     }
 }

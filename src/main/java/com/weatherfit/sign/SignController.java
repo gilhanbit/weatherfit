@@ -2,6 +2,7 @@ package com.weatherfit.sign;
 
 import com.weatherfit.sign.service.SignBO;
 import com.weatherfit.user.entity.UserEntity;
+import com.weatherfit.user.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -20,7 +21,7 @@ public class SignController {
     private final SignBO signBO;
 
     @GetMapping("/sign-in")
-    public String signIn(){
+    public String signIn() {
         return "sign/signIn";
     }
 
@@ -34,17 +35,17 @@ public class SignController {
     }
 
     @GetMapping("/sign-up")
-    public String signUp(){
+    public String signUp() {
         return "sign/signUp";
     }
 
     @GetMapping("/help-id")
-    public String helpId(){
+    public String helpId() {
         return "sign/helpId";
     }
 
     // TODO 비동기 요청으로 수정할 것
-    @PostMapping("/check")
+    @PostMapping("/checkId")
     public String helpId(
             @RequestParam("name") String name,
             @RequestParam("email") String email,
@@ -57,26 +58,36 @@ public class SignController {
             model.addAttribute("user", user);
         } else {
             model.addAttribute("user", null);
+            model.addAttribute("cantFindId", "아이디가 존재하지 않습니다.");
         }
 
         return "sign/checkId";
     }
 
-    @GetMapping("/help-pw")
-    public String helpPw(
+    @GetMapping("help-pw")
+    public String helpPw() {
+        return "sign/helpPw";
+    }
+
+    @PostMapping("/checkPw")
+    public String checkPw(
             @RequestParam("loginId") String loginId,
             @RequestParam("name") String name,
             @RequestParam("email") String email,
             Model model
     ){
 
-        String newPwd = RandomStringUtils.randomAlphanumeric(10);
+        UserEntity user = signBO.findUserPw(loginId, name, email);
 
-        return "sign/helpPw";
-    }
+        if (user == null) {
+            model.addAttribute("cantFindPw", "잘못 입력하셨습니다.");
+        }
 
-    @PostMapping("/extra-pw")
-    public String extraPw(){
+        if (user != null) {
+            String newPw = RandomStringUtils.randomAlphanumeric(10);
+            signBO.updatePw(loginId, name, email, newPw);
+            model.addAttribute("newPw", newPw);
+        }
         return "sign/extraPw";
     }
 }
