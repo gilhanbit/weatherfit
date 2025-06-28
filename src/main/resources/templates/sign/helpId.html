@@ -8,7 +8,7 @@
         <h3 class="d-flex justify-content-center align-items-center" style="height:100px;">아이디 찾기</h3>
 
         <div class="container p-4">
-            <form id="help-id-form" method="post" action="/sign/help-id">
+            <form id="help-id-form" method="post" action="/sign/checkId">
                 <!-- 이름 -->
                 <div class="d-flex justify-content-center">
                     <div class="help-id-input mb-3">
@@ -27,7 +27,7 @@
 
                 <div class="d-flex justify-content-center">
                     <div class="mt-3">
-                        <button type="submit" id="loginBtn" class="btn btn-info text-white" style="width:350px;">아이디 찾기</button>
+                        <button type="submit" id="findBtn" class="btn btn-info text-white" style="width:350px;">아이디 찾기</button>
                     </div>
                 </div>
 
@@ -47,34 +47,22 @@
 
     <script>
         $(function(){
-            $("#loginBtn").on("click", function(e){
+            $("#findBtn").on("click", function(e){
                 e.preventDefault();
 
-                let loginId = $("#loginId").val().trim();
-                let password = $("#password").val().trim();
+                let name = $("#name").val().trim();
+                let email = $("#email").val().trim();
 
-                if(!loginId){
-                    alert("아이디를 입력하세요.");
+                if(!name){
+                    alert("이름을 입력하세요.");
                     return;
                 }
-                if(!password){
-                    alert("비밀번호를 입력하세요.");
+                if(!email){
+                    alert("이메일을 입력하세요.");
                     return;
                 }
 
-                let url = $("#sign-in-form").attr("action");
-                let params = $("#sign-in-form").serialize();
-
-                console.log(url)
-
-                $.post(url, params)
-                .done(function(data) {
-                    if (data.result == "success") {
-                        location.href = "/timeline";
-                    } else {
-                        alert(data.error_message);
-                    }
-                });
+                $("#help-id-form").submit();
             });
         });
     </script>

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @Builder
-@AllArgsConstructor
 public class ResponseDTO {
 
     private final HttpStatus httpStatus;

@@ -23,7 +23,7 @@
                 </div>
 
                 <!-- 중복확인 -->
-                <div class="ml-3 mb-3">
+                <div class="d-flex justify-content-start mb-3" style="margin-left:360px;">
                     <div id="idCheckLength" class="small text-danger d-none">ID를 4자 이상 입력해주세요.</div>
                     <div id="idCheckDuplicated" class="small text-danger d-none">이미 사용중인 ID입니다.</div>
                     <div id="idCheckOk" class="small text-success d-none">사용 가능한 ID 입니다.</div>
@@ -83,17 +83,18 @@
                 }
 
                 $.ajax({
-                    url:"/sns/id-duplicate-id"
+                    url:"/sign/id-duplicate-id"
                     ,data:{"loginId":id}
+                    ,dataType: "json"
                     ,success:function(data){
-                        if(data.code == 200){
-                            if(data.is_duplicate_id){
-                                $("#idCheckDuplicated").removeClass("d-none");
-                            } else {
+                        if(data.success){
+                            if(data.data.isDuplicateId){
                                 $("#idCheckOk").removeClass("d-none");
+                            } else {
+                                $("#idCheckDuplicated").removeClass("d-none");
                             }
                         } else {
-                            alert("data.error_message");
+                            alert(data.message);
                         }
                     }
                     ,error:function(e){
@@ -141,10 +142,10 @@
 
                 $.post(url, params)
                 .done(function(data) {
-                    if (data.result == "success") {
-                        location.href = "/sns/sign-in";
+                    if (data.code == 201) {
+                        location.href = "/sign/sign-in";
                     } else {
-                        alert(data.error_message);
+                        alert("회원가입에 실패했습니다.");
                     }
                 });
             });
