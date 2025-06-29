@@ -6,7 +6,7 @@
         UPDATE
             `user`
         SET
-            `password` = #{newPw}
+            `password` = #{hashedPassword}
             ,`updatedAt` = now()
         WHERE
             `loginId` = #{loginId}

@@ -5,5 +5,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
 
-    public void updatePw(String loginId, String name, String email, String newPw);
+    public void updatePw(String loginId, String name, String email, String hashedPassword);
 }

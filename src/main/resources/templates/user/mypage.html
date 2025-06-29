@@ -7,14 +7,14 @@
     <!-- 유저 정보 -->
     <section class="container contents d-flex justify-content-between align-items-end">
         <span>
-            <h3>OOO님 안녕하세요</h3>
+            <h3 th:text="|${session.userName}님 안녕하세요|"></h3>
         </span>
         <a href="#" class="more-btn" data-toggle="modal" data-target="#modal">
             회원탈퇴
         </a>
     </section>
     <div class="container">
-        <span>아이디 응답</span>
+        <span th:text="${session.userloginId}"></span>
     </div>
 
     <!-- 유저 정보 변경 -->
@@ -25,15 +25,17 @@
             <div>이메일</div>
         </section>
         <section>
-            <div class="sign-up-input mb-2">
-                <input type="text" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
-            </div>
-            <div class="sign-up-input mb-2">
-                <input type="text" class="form-control" id="checkPassword" name="checkPassword" placeholder="비밀번호를 입력하세요">
-            </div>
-            <div class="sign-up-input d-flex align-items-center">
-                <input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요">
-            </div>
+            <form id="change-info-form" method="post" action="/user/info-change">
+                <div class="sign-up-input mb-2">
+                    <input type="text" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
+                </div>
+                <div class="sign-up-input mb-2">
+                    <input type="text" class="form-control" id="checkPassword" name="checkPassword" placeholder="비밀번호를 입력하세요">
+                </div>
+                <div class="sign-up-input d-flex align-items-center">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요">
+                </div>
+            </form>
         </section>
         <small style="margin-top:93px;">사용 중인 이메일: example@gmail.com</small>
         <section>
@@ -151,4 +153,34 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(function(){
+            $("#infoSaveBtn").on("click",function(e){
+                e.preventDefault();
+
+                let password = $("#password").val().trim();
+                let checkPassword = $("#checkPassword").val().trim();
+                let email = $("#email").val().trim();
+
+                if(password != confirmPassword){
+                    alert("비밀번호가 일치하지 않습니다.");
+                    return;
+                }
+
+                let url = $("#change-info-form").attr("action");
+                let params = $("#change-info-form").serialize();
+
+                $.post(url, params)
+                .done(function(data) {
+                    if (data.code == 200) {
+                        alert(data.message)
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+        });
+    </script>
 </th:block>

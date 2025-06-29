@@ -59,6 +59,8 @@ public class SignBO {
     }
 
     public void updatePw(String loginId, String name, String email, String newPw) {
-        userMapper.updatePw(loginId, name, email, newPw);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String hashedPassword = encoder.encode(newPw);
+        userMapper.updatePw(loginId, name, email, hashedPassword);
     }
 }
