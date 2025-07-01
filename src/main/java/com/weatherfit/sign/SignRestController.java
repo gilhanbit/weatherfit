@@ -36,6 +36,7 @@ public class SignRestController {
             session.setAttribute("userId", user.getId());
             session.setAttribute("userName", user.getName());
             session.setAttribute("userLoginId", user.getLoginId());
+            session.setAttribute("userEmail", user.getEmail());
             return ApiResponse.onSuccess(SuccessStatus.OK, null);
         } else {
             return ApiResponse.onFail(ErrorStatus.BAD_REQUEST);

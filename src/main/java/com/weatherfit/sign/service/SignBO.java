@@ -13,8 +13,8 @@ import java.util.Optional;
 @Service
 public class SignBO {
 
-    private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public boolean setUser(String loginId, String password, String name, String email) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

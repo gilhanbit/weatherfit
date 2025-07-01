@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Style {
 
     private int id;
-    private String userId;
+    private int userId;
     private String top;
     private String bottom;
     private String shoes;
