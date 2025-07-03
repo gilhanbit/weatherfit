@@ -1,80 +1,74 @@
 package com.weatherfit.short_fcst.service;
 
-import com.weatherfit.short_fcst.domain.ShortFcstDTO;
-import com.weatherfit.short_fcst.entity.ShortFcstEntity;
-import com.weatherfit.short_fcst.repository.ShortFcstRepository;
+import com.weatherfit.short_fcst.domain.ShortFcst;
+import com.weatherfit.short_fcst.mapper.ShortFcstMapper;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.LinkedHashMap;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ShortFcstBO {
 
-    private static final Logger log = LoggerFactory.getLogger(ShortFcstBO.class);
+    private final ShortFcstMapper shortFcstMapper;
 
-    private final ShortFcstRepository shortFcstRepository;
-    private final WebClient webClient = WebClient.builder().build();
+    public JSONParser setShortFcst(String result) {
+        JSONParser jsonParser = new JSONParser();
+        try {
+            JSONObject jsonObj = (JSONObject) jsonParser.parse(result);
+            JSONObject parse_response = (JSONObject) jsonObj.get("response");
+            JSONObject parse_body = (JSONObject) parse_response.get("body");
+            JSONObject parse_items = (JSONObject) parse_body.get("items");
+            JSONArray parse_item = (JSONArray) parse_items.get("item"); // response > body > items > item
 
-    @Value("${weather.short.url}")
-    private String shortUrl;
+            Long totalCount = (Long) parse_body.get("totalCount");
 
-    @Value("${weather.short.service-key}")
-    private String serviceKey;
+            LinkedHashMap<String, ShortFcst> fcstMap = new LinkedHashMap<>();
 
-    public Mono<Void> setShortFcst(String baseDate, String baseTime, String nx, String ny) {
-        return webClient.post()
-                .uri(shortUrl)
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .body(BodyInserters.fromFormData("serviceKey", serviceKey)
-                        .with("pageNo", "1")
-                        .with("numOfRows", "1000")
-                        .with("dataType", "JSON")
-                        .with("base_date", baseDate)
-                        .with("base_time", baseTime)
-                        .with("nx", nx)
-                        .with("ny", ny))
-                .retrieve()
-                .bodyToMono(ShortFcstDTO.WeatherApiResponse.class)
-                .doOnNext(apiResponse -> {
-                    if (apiResponse != null
-                            && apiResponse.getResponse() != null
-                            && apiResponse.getResponse().getBody() != null
-                            && apiResponse.getResponse().getBody().getItems() != null
-                            && apiResponse.getResponse().getBody().getItems().getItem() != null) {
+            for (int i = 0; i < totalCount; i++) {
+                JSONObject obj = (JSONObject) parse_item.get(i);
+                String category = (String) obj.get("category");
 
-                        List<ShortFcstEntity> entities = apiResponse.getResponse().getBody().getItems().getItem()
-                                .stream()
-                                .map(item -> ShortFcstEntity.builder()
-                                        .baseDate(item.getBaseDate())
-                                        .baseTime(item.getBaseTime())
-                                        .category(item.getCategory())
-                                        .fcstDate(item.getFcstDate())
-                                        .fcstTime(item.getFcstTime())
-                                        .fcstValue(item.getFcstValue())
-                                        .nx(item.getNx())
-                                        .ny(item.getNy())
-                                        .build())
-                                .collect(Collectors.toList());
+                if ("TMN".equals(category) || "TMX".equals(category)) {
+                    String fcstDate = (String) obj.get("fcstDate");
+                    String fcstValueStr = (String) obj.get("fcstValue");
+                    Double fcstValue = null;
+                    Long nx = (Long) obj.get("nx");
+                    Long ny = (Long) obj.get("ny");
 
-                        shortFcstRepository.saveAll(entities);
-                        log.info("Saved {} forecasts to DB", entities.size());
-                    } else {
-                        log.warn("API response is null or 구조 이상");
+                    try {
+                        fcstValue = Double.parseDouble(fcstValueStr);
+                    } catch (NumberFormatException e) {
+                        continue;
                     }
-                })
-                .then();
-    }
 
-    public List<ShortFcstEntity> getStoredForecasts() {
-        return shortFcstRepository.findAll();
+                    ShortFcst shortFcst = fcstMap.getOrDefault(fcstDate, new ShortFcst());
+                    shortFcst.setFcstDate(fcstDate);
+                    shortFcst.setNx(nx);
+                    shortFcst.setNy(ny);
+
+                    if ("TMN".equals(category)) {
+                        shortFcst.setTmn(fcstValue);
+                    } else if ("TMX".equals(category)) {
+                        shortFcst.setTmx(fcstValue);
+                    }
+
+                    fcstMap.put(fcstDate, shortFcst);
+
+                    if (shortFcst.getTmn() != null && shortFcst.getTmx() != null) {
+                        shortFcstMapper.insertShortFcst(shortFcst);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         return jsonParser;
     }
 }
