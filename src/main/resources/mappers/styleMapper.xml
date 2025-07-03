@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weatherfit.user.mapper.StyleMapper">
+    <select id="selectUserStyle">
+        SELECT
+            `userId`
+            ,`top`
+            ,`bottom`
+            ,`shoes`
+        FROM
+            `style`
+        WHERE
+            `userId` = #{userId}
+    </select>
+
+    <insert id="insertUserStyle">
+        INSERT INTO `style`
+        (
+            `userId`
+            ,`top`
+            ,`bottom`
+            ,`shoes`
+            ,`createdAt`
+        )
+        VALUES
+        (
+            #{userId}
+            ,#{top}
+            ,#{bottom}
+            ,#{shoes}
+            ,NOW()
+        )
+    </insert>
+
+    <update id="updateUserStyle">
+        UPDATE
+            `style`
+        SET
+            `top` = #{top}
+            ,`bottom` = #{bottom}
+            ,`shoes` = #{shoes}
+            ,`createdAt` = now()
+        WHERE
+            `userId` = #{userId}
+    </update>
+</mapper>

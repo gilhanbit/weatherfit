@@ -7,14 +7,14 @@
     <!-- 유저 정보 -->
     <section class="container contents d-flex justify-content-between align-items-end">
         <span>
-            <h3>OOO님 안녕하세요</h3>
+            <h3 th:text="|${session.userName}님 안녕하세요|"></h3>
         </span>
         <a href="#" class="more-btn" data-toggle="modal" data-target="#modal">
             회원탈퇴
         </a>
     </section>
     <div class="container">
-        <span>아이디 응답</span>
+        <span th:text="${session.userLoginId}"></span>
     </div>
 
     <!-- 유저 정보 변경 -->
@@ -25,19 +25,21 @@
             <div>이메일</div>
         </section>
         <section>
-            <div class="sign-up-input mb-2">
-                <input type="text" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
-            </div>
-            <div class="sign-up-input mb-2">
-                <input type="text" class="form-control" id="checkPassword" name="checkPassword" placeholder="비밀번호를 입력하세요">
-            </div>
-            <div class="sign-up-input d-flex align-items-center">
-                <input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요">
-            </div>
+            <form id="update-info-form" method="post" action="/user/update-info">
+                <div class="sign-up-input mb-2">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요">
+                </div>
+                <div class="sign-up-input mb-2">
+                    <input type="password" class="form-control" id="checkPassword" name="checkPassword" placeholder="비밀번호를 입력하세요">
+                </div>
+                <div class="sign-up-input d-flex align-items-center">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요">
+                </div>
+            </form>
         </section>
-        <small style="margin-top:93px;">사용 중인 이메일: example@gmail.com</small>
+        <small style="margin-top:93px;" th:text="|사용 중인 이메일: ${user.email}|"></small>
         <section>
-            <button type="submit" id="infoSaveBtn" class="btn btn-secondary">저장</button>
+            <button type="submit" id="infoSaveBtn" class="btn btn-secondary" th:data-user-id="${session.userId}">저장</button>
         </section>
     </section>
 
@@ -52,44 +54,46 @@
             <div>신발</div>
         </section>
         <section style="margin-left:90px;">
-            <div class="d-flex align-items-center mb-4">
-                <select class="text-center" style="width:350px;">
-                    <option>캐주얼</option>
-                    <option>스포티</option>
-                    <option>스트릿</option>
-                    <option>클래식</option>
-                    <option>미니멀</option>
-                    <option>로맨틱</option>
-                </select>
-            </div>
-            <div class="d-flex align-items-center mb-4">
-                <select class="text-center" style="width:350px;">
-                    <option>캐주얼</option>
-                    <option>스포티</option>
-                    <option>스트릿</option>
-                    <option>클래식</option>
-                    <option>미니멀</option>
-                    <option>스커트</option>
-                </select>
-            </div>
-            <div class="d-flex align-items-center">
-                <select class="text-center" style="width:350px;">
-                    <option>운동화</option>
-                    <option>단화</option>
-                    <option>구두</option>
-                    <option>힐</option>
-                    <option>부츠</option>
-                    <option>슬리퍼</option>
-                </select>
-            </div>
+            <form id="style-form" method="post" action="/user/style">
+                <div class="d-flex align-items-center mb-4">
+                    <select id="top" name="top" class="text-center" style="width:350px;">
+                        <option>캐주얼</option>
+                        <option>스포티</option>
+                        <option>스트릿</option>
+                        <option>클래식</option>
+                        <option>미니멀</option>
+                        <option>로맨틱</option>
+                    </select>
+                </div>
+                <div class="d-flex align-items-center mb-4">
+                    <select id="bottom" name="bottom" class="text-center" style="width:350px;">
+                        <option>캐주얼</option>
+                        <option>스포티</option>
+                        <option>스트릿</option>
+                        <option>클래식</option>
+                        <option>미니멀</option>
+                        <option>스커트</option>
+                    </select>
+                </div>
+                <div class="d-flex align-items-center">
+                    <select id="shoes" name="shoes" class="text-center" style="width:350px;">
+                        <option>운동화</option>
+                        <option>단화</option>
+                        <option>구두</option>
+                        <option>힐</option>
+                        <option>부츠</option>
+                        <option>슬리퍼</option>
+                    </select>
+                </div>
+            </form>
         </section>
         <section>
-            <div class="mb-4">캐주얼</div>
-            <div class="mb-4">미니멀</div>
-            <div>운동화</div>
+            <div class="mb-4" th:text="${style.top}">캐주얼</div>
+            <div class="mb-4" th:text="${style.bottom}">미니멀</div>
+            <div th:text="${style.shoes}">운동화</div>
         </section>
         <section style="margin-left:180px;">
-            <button type="submit" id="styleSaveBtn" class="btn btn-secondary">저장</button>
+            <button type="submit" id="styleSaveBtn" class="btn btn-secondary" th:data-user-id="${session.userId}">저장</button>
         </section>
     </section>
 
@@ -151,4 +155,73 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(function(){
+            $("#infoSaveBtn").on("click",function(e){
+                e.preventDefault();
+
+                let userId = $(this).data("user-id");
+                let password = $("#password").val().trim();
+                let checkPassword = $("#checkPassword").val().trim();
+                let email = $("#email").val().trim();
+
+                if(!password){
+                    alert("비밀번호를 입력해주세요.");
+                    return;
+                }
+
+                if(password != checkPassword){
+                    alert("비밀번호가 일치하지 않습니다.");
+                    return;
+                }
+
+                let url = $("#update-info-form").attr("action");
+                let params = $("#update-info-form").serialize();
+                params += "&userId=" + encodeURIComponent(userId);
+
+                $.post(url, params)
+                .done(function(data) {
+                    if (data.code == 200) {
+                        alert(data.message)
+                        const form = document.createElement("form");
+                        form.method = "post";
+                        form.action = "/user/mypage";
+                        document.body.appendChild(form);
+                        form.submit();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+
+            $("#styleSaveBtn").on("click",function(e){
+                e.preventDefault();
+
+                let userId = $(this).data("user-id");
+                let top = $("#top").val();
+                let bottom = $("#bottom").val();
+                let shoes = $("#shoes").val();
+
+
+                let url = $("#style-form").attr("action");
+                let params = $("#style-form").serialize();
+                params += "&userId=" + encodeURIComponent(userId);
+
+                $.post(url, params)
+                .done(function(data) {
+                    if (data.code == 200) {
+                        alert(data.message)
+                        const form = document.createElement("form");
+                        form.method = "post";
+                        form.action = "/user/mypage";
+                        document.body.appendChild(form);
+                        form.submit();
+                    } else {
+                        alert("저장에 실패했습니다.");
+                    }
+                });
+            });
+        });
+    </script>
 </th:block>
