@@ -2,5 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.weatherfit.short_fcst.mapper.ShortFcstMapper">
+    <select id="findFcstDate">
+        SELECT
+            `fcstDate`
+        FROM
+            `short_fcst`
+        WHERE
+            `fcstDate` = #{fcstDate}
+    </select>
 
+    <update id="updateShortFcst">
+        UPDATE
+            `short_fcst`
+        SET
+            `tmn` = #{tmn}
+            ,`tmx` = #{tmx}
+            ,`nx` = #{nx}
+            ,`ny` = #{ny}
+            ,`createdAt` = NOW()
+        WHERE
+            `fcstDate` = #{fcstDate}
+    </update>
+
+    <insert id="insertShortFcst">
+        INSERT INTO `short_fcst`
+        (
+            `fcstDate`
+            ,`tmn`
+            ,`tmx`
+            ,`nx`
+            ,`ny`
+            ,`createdAt`
+        )
+        VALUES
+        (
+            #{fcstDate}
+            ,#{tmn}
+            ,#{tmx}
+            ,#{nx}
+            ,#{ny}
+            ,NOW()
+        )
+    </insert>
 </mapper>

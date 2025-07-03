@@ -114,4 +114,25 @@
             </article>
         </div>
     </section>
+
+    <script>
+        $(function() {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                let lat = pos.coords.latitude;
+                let lon = pos.coords.longitude;
+                console.log(lat);
+                console.log(lon);
+                $.ajax({
+                    url: "/weatherfit/main",
+                    data: {"lat": lat, "lon": lon},
+                    success: function() {
+                        alert("위치를 얻어오는데 성공했습니다.");
+                    },
+                    error: function() {
+                        alert("위치를 얻어오는데 실패했습니다.");
+                    }
+                });
+            });
+        });
+    </script>
 </th:block>
