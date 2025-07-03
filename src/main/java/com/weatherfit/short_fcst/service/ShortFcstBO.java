@@ -18,7 +18,8 @@ public class ShortFcstBO {
 
     private final ShortFcstMapper shortFcstMapper;
 
-    public JSONParser setShortFcst(String result) {
+    // 기상청 응답 -> 내 서버 저장
+    public void setShortFcst(String result) {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObj = (JSONObject) jsonParser.parse(result);
@@ -35,6 +36,7 @@ public class ShortFcstBO {
                 JSONObject obj = (JSONObject) parse_item.get(i);
                 String category = (String) obj.get("category");
 
+                // 카테고리에서 기온 (최저, 최고) 필터링
                 if ("TMN".equals(category) || "TMX".equals(category)) {
                     String fcstDate = (String) obj.get("fcstDate");
                     String fcstValueStr = (String) obj.get("fcstValue");
@@ -48,27 +50,50 @@ public class ShortFcstBO {
                         continue;
                     }
 
-                    ShortFcst shortFcst = fcstMap.getOrDefault(fcstDate, new ShortFcst());
-                    shortFcst.setFcstDate(fcstDate);
-                    shortFcst.setNx(nx);
-                    shortFcst.setNy(ny);
+                    // 예보일자 존재 확인
+                    Boolean isFind = shortFcstMapper.findFcstDate(fcstDate);
 
-                    if ("TMN".equals(category)) {
-                        shortFcst.setTmn(fcstValue);
-                    } else if ("TMX".equals(category)) {
-                        shortFcst.setTmx(fcstValue);
-                    }
+                    if (isFind != null) {
+                        ShortFcst shortFcst = fcstMap.getOrDefault(fcstDate, new ShortFcst());
+                        shortFcst.setFcstDate(fcstDate);
+                        shortFcst.setNx(nx);
+                        shortFcst.setNy(ny);
 
-                    fcstMap.put(fcstDate, shortFcst);
+                        if ("TMN".equals(category)) {
+                            shortFcst.setTmn(fcstValue);
+                        } else if ("TMX".equals(category)) {
+                            shortFcst.setTmx(fcstValue);
+                        }
 
-                    if (shortFcst.getTmn() != null && shortFcst.getTmx() != null) {
-                        shortFcstMapper.insertShortFcst(shortFcst);
+                        fcstMap.put(fcstDate, shortFcst);
+
+                        if (shortFcst.getTmn() != null && shortFcst.getTmx() != null) {
+                            shortFcstMapper.updateShortFcst(shortFcst);
+                        }
+                    } else {
+                        ShortFcst shortFcst = fcstMap.getOrDefault(fcstDate, new ShortFcst());
+                        shortFcst.setFcstDate(fcstDate);
+                        shortFcst.setNx(nx);
+                        shortFcst.setNy(ny);
+
+                        if ("TMN".equals(category)) {
+                            shortFcst.setTmn(fcstValue);
+                        } else if ("TMX".equals(category)) {
+                            shortFcst.setTmx(fcstValue);
+                        }
+
+                        fcstMap.put(fcstDate, shortFcst);
+
+                        if (shortFcst.getTmn() != null && shortFcst.getTmx() != null) {
+                            shortFcstMapper.insertShortFcst(shortFcst);
+                        }
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-         return jsonParser;
     }
+
+    // 내 서버에서 호출
 }
