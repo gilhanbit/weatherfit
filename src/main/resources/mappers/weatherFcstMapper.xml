@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.weatherfit.short_fcst.mapper.ShortFcstMapper">
+<mapper namespace="com.weatherfit.weather.mapper.ShortFcstMapper">
     <select id="findFcstDate">
         SELECT
             `fcstDate`
         FROM
-            `short_fcst`
+            `weather_fcst`
         WHERE
             `fcstDate` = #{fcstDate}
     </select>
 
     <update id="updateShortFcst">
         UPDATE
-            `short_fcst`
+            `weather_fcst`
         SET
-            `tmn` = #{tmn}
+            `tmp` = #{tmp}
+            ,`tmn` = #{tmn}
             ,`tmx` = #{tmx}
             ,`nx` = #{nx}
             ,`ny` = #{ny}
@@ -25,9 +26,10 @@
     </update>
 
     <insert id="insertShortFcst">
-        INSERT INTO `short_fcst`
+        INSERT INTO `weather_fcst`
         (
             `fcstDate`
+            ,`tmp`
             ,`tmn`
             ,`tmx`
             ,`nx`
@@ -37,6 +39,7 @@
         VALUES
         (
             #{fcstDate}
+            ,#{tmp}
             ,#{tmn}
             ,#{tmx}
             ,#{nx}

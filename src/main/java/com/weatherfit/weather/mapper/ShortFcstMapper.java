@@ -1,6 +1,6 @@
-package com.weatherfit.short_fcst.mapper;
+package com.weatherfit.weather.mapper;
 
-import com.weatherfit.short_fcst.domain.ShortFcst;
+import com.weatherfit.weather.domain.ShortFcst;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

@@ -1,7 +1,7 @@
-package com.weatherfit.short_fcst.service;
+package com.weatherfit.weather.service;
 
-import com.weatherfit.short_fcst.domain.ShortFcst;
-import com.weatherfit.short_fcst.mapper.ShortFcstMapper;
+import com.weatherfit.weather.domain.ShortFcst;
+import com.weatherfit.weather.mapper.ShortFcstMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -9,7 +9,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -20,7 +22,12 @@ public class ShortFcstBO {
 
     // 기상청 응답 -> 내 서버 저장
     public void setShortFcst(String result) {
+        LocalDateTime time = LocalDateTime.now();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+        int timeNow = Integer.parseInt(time.format(timeFormatter));
+
         JSONParser jsonParser = new JSONParser();
+
         try {
             JSONObject jsonObj = (JSONObject) jsonParser.parse(result);
             JSONObject parse_response = (JSONObject) jsonObj.get("response");
@@ -30,14 +37,17 @@ public class ShortFcstBO {
 
             Long totalCount = (Long) parse_body.get("totalCount");
 
+            // 중복되는 날짜 없도록 더블 체크 (추후 로직 수정)
             LinkedHashMap<String, ShortFcst> fcstMap = new LinkedHashMap<>();
 
             for (int i = 0; i < totalCount; i++) {
                 JSONObject obj = (JSONObject) parse_item.get(i);
                 String category = (String) obj.get("category");
+                String fcstTimeStr = (String) obj.get("fcstTime");
+                int fcstTime = Integer.parseInt(fcstTimeStr);
 
                 // 카테고리에서 기온 (최저, 최고) 필터링
-                if ("TMN".equals(category) || "TMX".equals(category)) {
+                if ("TMN".equals(category) || "TMX".equals(category) || "TMP".equals(category)) {
                     String fcstDate = (String) obj.get("fcstDate");
                     String fcstValueStr = (String) obj.get("fcstValue");
                     Double fcstValue = null;
@@ -63,11 +73,19 @@ public class ShortFcstBO {
                             shortFcst.setTmn(fcstValue);
                         } else if ("TMX".equals(category)) {
                             shortFcst.setTmx(fcstValue);
+                        } else if ("TMP".equals(category)) {
+                            int diff = Math.abs(fcstTime - timeNow);
+
+                            // 기존 TMP와 diff 비교
+                            if (shortFcst.getTmp() == null || shortFcst.getTmpDiff() == null || diff < shortFcst.getTmpDiff()) {
+                                shortFcst.setTmp(fcstValue);
+                                shortFcst.setTmpDiff(diff);
+                            }
                         }
 
                         fcstMap.put(fcstDate, shortFcst);
 
-                        if (shortFcst.getTmn() != null && shortFcst.getTmx() != null) {
+                        if (shortFcst.getTmn() != null && shortFcst.getTmx() != null && shortFcst.getTmp() != null) {
                             shortFcstMapper.updateShortFcst(shortFcst);
                         }
                     } else {
@@ -80,11 +98,18 @@ public class ShortFcstBO {
                             shortFcst.setTmn(fcstValue);
                         } else if ("TMX".equals(category)) {
                             shortFcst.setTmx(fcstValue);
+                        } else if ("TMP".equals(category)) {
+                            int diff = Math.abs(fcstTime - timeNow);
+
+                            if (shortFcst.getTmp() == null || shortFcst.getTmpDiff() == null || diff < shortFcst.getTmpDiff()) {
+                                shortFcst.setTmp(fcstValue);
+                                shortFcst.setTmpDiff(diff);
+                            }
                         }
 
                         fcstMap.put(fcstDate, shortFcst);
 
-                        if (shortFcst.getTmn() != null && shortFcst.getTmx() != null) {
+                        if (shortFcst.getTmn() != null && shortFcst.getTmx() != null && shortFcst.getTmp() != null) {
                             shortFcstMapper.insertShortFcst(shortFcst);
                         }
                     }

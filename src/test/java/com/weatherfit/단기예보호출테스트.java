@@ -1,6 +1,6 @@
 package com.weatherfit;
 
-import com.weatherfit.short_fcst.domain.ShortFcst;
+import com.weatherfit.weather.domain.ShortFcst;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

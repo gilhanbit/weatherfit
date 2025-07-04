@@ -47,7 +47,7 @@
     <!-- 주간예보 -->
     <section class="container">
         <h3 class="d-flex justify-content-center align-items-end" style="height:200px;">주간예보</h3>
-        <div class="weekend-weather bg-light rounded d-flex justify-content-between align-items-center mt-3 py-5">
+        <div class="weekend-weather d-flex justify-content-between align-items-center mt-3 py-5">
             <article class="weekend-weather-box">
 <!--                    TODO-->
 <!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
@@ -118,18 +118,18 @@
     <script>
         $(function() {
             navigator.geolocation.getCurrentPosition(function(pos) {
-                let lat = pos.coords.latitude;
-                let lon = pos.coords.longitude;
+                let lat = pos.coords.latitude; // 위도
+                let lon = pos.coords.longitude; // 경도
                 console.log(lat);
                 console.log(lon);
                 $.ajax({
                     url: "/weatherfit/main",
                     data: {"lat": lat, "lon": lon},
                     success: function() {
-                        alert("위치를 얻어오는데 성공했습니다.");
+                        alert("위치를 불러오는데 성공했습니다.");
                     },
                     error: function() {
-                        alert("위치를 얻어오는데 실패했습니다.");
+                        alert("위치를 불러오는데 실패했습니다.");
                     }
                 });
             });

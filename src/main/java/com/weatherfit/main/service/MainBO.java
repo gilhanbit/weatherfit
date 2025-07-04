@@ -1,12 +1,16 @@
 package com.weatherfit.main.service;
 
 import com.weatherfit.common.GridConverter;
-import com.weatherfit.short_fcst.ShortFcstAPI;
-import com.weatherfit.short_fcst.service.ShortFcstBO;
+import com.weatherfit.weather.api.ShortFcstAPI;
+import com.weatherfit.weather.service.ShortFcstBO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,12 +18,22 @@ public class MainBO {
 
     private final ShortFcstBO shortFcstBO;
 
-    public void shortFcst(Double lat, Double lon) {
-        try {
+    // TODO x, y 서버에 존재 시 select로 불러와 (desc -> list reverse) 뿌리고, 없으면 API 호출
+    public List<LinkedHashMap<String, Object>> getShortFcst(Double lat, Double lon) {
+
+    }
+
+    public void setShortFcst(Double lat, Double lon) {
             GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
-            int x = gridCoord.nx;
-            int y = gridCoord.ny;
-            String result = ShortFcstAPI.callShortFcstAPI(x, y);
+            String x = gridCoord.nx + "";
+            String y = gridCoord.ny + "";
+
+            LocalDate day = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            String today = day.format(formatter);
+
+        try {
+            String result = ShortFcstAPI.callShortFcstAPI(x, y, today);
             shortFcstBO.setShortFcst(result);
         } catch (IOException e) {
             e.printStackTrace();
