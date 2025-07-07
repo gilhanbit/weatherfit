@@ -1,6 +1,9 @@
 package com.weatherfit.weather.api;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -9,12 +12,16 @@ import java.net.URLEncoder;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+@Component
 @Slf4j
 public class ShortFcstAPI {
 
-    public static String callShortFcstAPI(String x, String y, String today) throws IOException {
+    @Value("${weather.short.service-key}")
+    private String serviceKey;
+
+    public String callShortFcstAPI(String x, String y, String today) throws IOException {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=GDdYXnnTxEuSNBtekaoYDFXSmat2FNd0rJKDwFHcm9xwCg17tTDpdItmvPaz00%2BQnOiG6pmnPPuXIi74z%2B3bbA%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + serviceKey); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/

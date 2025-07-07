@@ -2,6 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.weatherfit.weather.mapper.ShortFcstMapper">
+    <select id="selectTodayFcst">
+        SELECT
+            *
+        FROM
+            `weather_fcst`
+        WHERE
+            `fcstDate` = #{todayFcst}
+    </select>
+
+    <select id="getShortFcstlist">
+        SELECT
+            *
+        FROM
+            `weather_fcst`
+        WHERE
+            `nx` = #{x}
+        AND
+            `ny` = #{y}
+        ORDER BY
+            `fcstDate`
+        DESC LIMIT 3
+    </select>
+
     <select id="findFcstDate">
         SELECT
             `fcstDate`

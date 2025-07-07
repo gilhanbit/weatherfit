@@ -20,6 +20,17 @@ public class ShortFcstBO {
 
     private final ShortFcstMapper shortFcstMapper;
 
+    public ShortFcst getTodayFcst(String todayFcst) {
+        return shortFcstMapper.selectTodayFcst(todayFcst);
+    }
+
+    // 클라 위치에 맞는 서버 데이터 확인
+    public List<ShortFcst> getShortFcstlist(String x, String y) {
+        List<ShortFcst> reverseShortFcst = shortFcstMapper.getShortFcstlist(x, y);
+        Collections.reverse(reverseShortFcst);
+        return reverseShortFcst;
+    }
+
     // 기상청 응답 -> 내 서버 저장
     public void setShortFcst(String result) {
         LocalDateTime time = LocalDateTime.now();
@@ -119,6 +130,4 @@ public class ShortFcstBO {
             e.printStackTrace();
         }
     }
-
-    // 내 서버에서 호출
 }
