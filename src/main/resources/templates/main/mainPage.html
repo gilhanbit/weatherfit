@@ -4,132 +4,79 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout/defaultLayout}">
 <th:block layout:fragment="content">
-    <!-- 오늘 날씨 -->
-    <section class="container contents d-flex align-items-end">
-        <section class="now-temperature">
-            <div>현재기온</div>
-            <h1>30℃</h1>
+        <!-- 오늘 날씨 -->
+        <!-- localdate.now()로 내 서버 조회 -->
+        <section class="container contents d-flex align-items-end">
+            <section class="now-temperature">
+                <div>현재기온</div>
+                <h1 th:text="|${todayFcst.tmp}℃|">30℃</h1>
+            </section>
+            <section class="today-temperature">
+                <article class="today-high">
+                    <div>최고온도</div>
+                    <div th:text="|${todayFcst.tmx}℃|">33℃</div>
+                </article>
+                <article class="today-low">
+                    <div th:text="|${todayFcst.tmn}℃|">28℃</div>
+                    <div>최저온도</div>
+                </article>
+            </section>
         </section>
-        <section class="today-temperature">
-            <article class="today-high">
-                <div>최고온도</div>
-                <div>33℃</div>
-            </article>
-            <article class="today-low">
-                <div>28℃</div>
-                <div>최저온도</div>
-            </article>
+
+        <!-- 스타일 -->
+        <section class="container">
+            <h3 class="d-flex justify-content-center align-items-end" style="height:200px;">가볍고 시원한 코디 추천해요 (if 기온에 맞춘 다양한 멘트)</h3>
+            <div class="custom-style d-flex justify-content-between align-items-center mt-3">
+                <div class="custom-style-box d-flex justify-content-center align-items-center">
+                    <a href="https://www.musinsa.com/products/5108154">
+                        <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250513/5108154/5108154_17472128265340_big.jpg?w=1200" width="350px" height="550px">
+                    </a>
+                </div>
+                <div class="custom-style-box d-flex justify-content-center align-items-center">
+                    <a href="https://www.musinsa.com/products/4817239">
+                        <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250221/4817239/4817239_17490247132938_big.jpg?w=1200" width="350px" height="550px">
+                    </a>
+                </div>
+                <div class="custom-style-box d-flex justify-content-center align-items-center">
+                    <a href="https://www.musinsa.com/products/4827479">
+                        <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250225/4827479/4827479_17437342462925_big.png?w=1200" width="350px" height="550px">
+                    </a>
+                </div>
+            </div>
         </section>
-    </section>
 
-    <!-- 스타일 -->
-    <section class="container">
-        <h3 class="d-flex justify-content-center align-items-end" style="height:200px;">가볍고 시원한 코디 추천해요 (if 기온에 맞춘 다양한 멘트)</h3>
-        <div class="custom-style d-flex justify-content-between align-items-center mt-3">
-            <div class="custom-style-box d-flex justify-content-center align-items-center">
-                <a href="https://www.musinsa.com/products/5108154">
-                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250513/5108154/5108154_17472128265340_big.jpg?w=1200" width="350px" height="550px">
-                </a>
+        <!-- 주간예보 -->
+        <section class="container">
+            <h3 class="d-flex justify-content-center align-items-end" style="height:200px;">주간예보</h3>
+            <div class="weekend-weather d-flex justify-content-between align-items-center mt-3 py-5">
+                <article class="weekend-weather-box" th:each="shortFcst, iterStat:${shortFcstList}">
+    <!--                    TODO-->
+    <!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="weekend-weather-low" th:text="${shortFcst.tmn}">26</div>
+                        /
+                        <div class="weekend-weather-high" th:text="${shortFcst.tmx}">30</div>
+                    </div>
+                    <div class="day-of-the-week" th:text="${weekList[iterStat.index]}">월</div>
+                </article>
             </div>
-            <div class="custom-style-box d-flex justify-content-center align-items-center">
-                <a href="https://www.musinsa.com/products/4817239">
-                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250221/4817239/4817239_17490247132938_big.jpg?w=1200" width="350px" height="550px">
-                </a>
-            </div>
-            <div class="custom-style-box d-flex justify-content-center align-items-center">
-                <a href="https://www.musinsa.com/products/4827479">
-                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250225/4827479/4827479_17437342462925_big.png?w=1200" width="350px" height="550px">
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 주간예보 -->
-    <section class="container">
-        <h3 class="d-flex justify-content-center align-items-end" style="height:200px;">주간예보</h3>
-        <div class="weekend-weather bg-light rounded d-flex justify-content-between align-items-center mt-3 py-5">
-            <article class="weekend-weather-box">
-<!--                    TODO-->
-<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="weekend-weather-low">26</div>
-                    /
-                    <div class="weekend-weather-high">30</div>
-                </div>
-                <div class="day-of-the-week">월</div>
-            </article>
-            <article class="weekend-weather-box">
-<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="weekend-weather-low">26</div>
-                    /
-                    <div class="weekend-weather-high">30</div>
-                </div>
-                <div class="day-of-the-week">월</div>
-            </article>
-            <article class="weekend-weather-box">
-<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="weekend-weather-low">26</div>
-                    /
-                    <div class="weekend-weather-high">30</div>
-                </div>
-                <div class="day-of-the-week">월</div>
-            </article>
-            <article class="weekend-weather-box">
-<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="weekend-weather-low">26</div>
-                    /
-                    <div class="weekend-weather-high">30</div>
-                </div>
-                <div class="day-of-the-week">월</div>
-            </article>
-            <article class="weekend-weather-box">
-<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="weekend-weather-low">26</div>
-                    /
-                    <div class="weekend-weather-high">30</div>
-                </div>
-                <div class="day-of-the-week">월</div>
-            </article>
-            <article class="weekend-weather-box">
-<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="weekend-weather-low">26</div>
-                    /
-                    <div class="weekend-weather-high">30</div>
-                </div>
-                <div class="day-of-the-week">월</div>
-            </article>
-            <article class="weekend-weather-box">
-<!--                <img src="날씨 표현하는 이미지" alt="맑음 / 흐림 / 비 / 눈">-->
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="weekend-weather-low">26</div>
-                    /
-                    <div class="weekend-weather-high">30</div>
-                </div>
-                <div class="day-of-the-week">월</div>
-            </article>
-        </div>
-    </section>
+        </section>
 
     <script>
         $(function() {
             navigator.geolocation.getCurrentPosition(function(pos) {
-                let lat = pos.coords.latitude;
-                let lon = pos.coords.longitude;
+                let lat = pos.coords.latitude; // 위도
+                let lon = pos.coords.longitude; // 경도
                 console.log(lat);
                 console.log(lon);
                 $.ajax({
                     url: "/weatherfit/main",
                     data: {"lat": lat, "lon": lon},
-                    success: function() {
-                        alert("위치를 얻어오는데 성공했습니다.");
+                    success: function(data) {
+                        alert("위치를 불러오는데 성공했습니다.");
                     },
                     error: function() {
-                        alert("위치를 얻어오는데 실패했습니다.");
+                        alert("위치를 불러오는데 실패했습니다.");
                     }
                 });
             });

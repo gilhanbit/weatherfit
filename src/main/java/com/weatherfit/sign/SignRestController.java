@@ -4,7 +4,9 @@ import com.weatherfit.common.response.ApiResponse;
 import com.weatherfit.common.response.ErrorStatus;
 import com.weatherfit.common.response.SuccessStatus;
 import com.weatherfit.sign.service.SignBO;
+import com.weatherfit.user.domain.Style;
 import com.weatherfit.user.entity.UserEntity;
+import com.weatherfit.user.service.StyleBO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.Map;
 public class SignRestController {
 
     private final SignBO signBO;
+    private final StyleBO styleBO;
 
     @PostMapping("/sign-in")
     public ResponseEntity<ApiResponse<Void>> signIn(
@@ -29,6 +32,7 @@ public class SignRestController {
     ){
 
         UserEntity user = signBO.getUser(loginId, password);
+        Style style = styleBO.getUserStyle(user.getId());
 
         if (user != null) {
             // 로그인 성공 시 서버에 세션 공간을 만들어둔다.
@@ -37,6 +41,10 @@ public class SignRestController {
             session.setAttribute("userName", user.getName());
             session.setAttribute("userLoginId", user.getLoginId());
             session.setAttribute("userEmail", user.getEmail());
+
+            session.setAttribute("top", style.getTop());
+            session.setAttribute("bottom", style.getBottom());
+            session.setAttribute("shoes", style.getShoes());
             return ApiResponse.onSuccess(SuccessStatus.OK, null);
         } else {
             return ApiResponse.onFail(ErrorStatus.BAD_REQUEST);

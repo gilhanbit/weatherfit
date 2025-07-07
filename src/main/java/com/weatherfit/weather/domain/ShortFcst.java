@@ -1,4 +1,4 @@
-package com.weatherfit.short_fcst.domain;
+package com.weatherfit.weather.domain;
 
 import lombok.Data;
 import lombok.ToString;
@@ -11,9 +11,12 @@ public class ShortFcst {
 
     private int id;
     private String fcstDate;
+    private Double tmp;
     private Double tmn;
     private Double tmx;
     private Long nx;
     private Long ny;
     private LocalDateTime createdAt;
+
+    private Integer tmpDiff;
 }
