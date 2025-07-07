@@ -1,7 +1,9 @@
 package com.weatherfit.main;
 
 import com.weatherfit.main.service.MainBO;
+import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.weather.domain.ShortFcst;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,14 +30,18 @@ public class MainController {
     public String mainPage(
             @RequestParam(value="lat", required = false) Double lat,
             @RequestParam(value="lon", required = false) Double lon,
-            Model model
+            Model model,
+            HttpSession session
     ) {
 
+        /**
+         * 기상 Data
+         */
+
+        // 오늘 날짜로 요일 계산
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String todayFcst = today.format(formatter);
-
-        // 오늘날짜로 요일 계산
         List<String> weekList = new ArrayList<>();
 
         for (int i = 1; i <= 7; i++) {
@@ -69,6 +75,36 @@ public class MainController {
             model.addAttribute("shortFcstList", getShortFcstlist);
         }
 
+
+        /**
+         * 스타일 Data
+         */
+        Integer userId = (Integer)session.getAttribute("userId");
+        String topStyle = (String)session.getAttribute("top");
+        String bottomStyle = (String)session.getAttribute("bottom");
+        String shoesStyle = (String)session.getAttribute("shoes");
+
+
+        ShortFcst getTodayFcst = mainBO.getTodayFcst(todayFcst);
+        Double todayTemp = getTodayFcst.getTmp();
+
+
+        // 로그인 (기온+스타일)
+        if (userId != null) {
+            // API 호출
+            List<SearchShop> userTopList = mainBO.getUserTopList(todayTemp, topStyle);
+            // main
+            SearchShop mainTop = userTopList.get(0);
+            model.addAttribute("mainTop", mainTop);
+            // like list
+
+        } else {
+            // API 호출
+            List<SearchShop> userTopList = mainBO.getTopList(todayTemp);
+            // main
+            SearchShop mainTop = userTopList.get(0);
+            model.addAttribute("mainTop", mainTop);
+        }
         return "main/mainPage";
     }
 }

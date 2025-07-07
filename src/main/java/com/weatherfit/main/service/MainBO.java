@@ -1,6 +1,11 @@
 package com.weatherfit.main.service;
 
 import com.weatherfit.common.GridConverter;
+import com.weatherfit.naver.api.SearchShopAPI;
+import com.weatherfit.naver.domain.SearchShop;
+import com.weatherfit.naver.service.SearchShopBO;
+import com.weatherfit.user.domain.Style;
+import com.weatherfit.user.service.StyleBO;
 import com.weatherfit.weather.api.ShortFcstAPI;
 import com.weatherfit.weather.domain.ShortFcst;
 import com.weatherfit.weather.service.ShortFcstBO;
@@ -10,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -19,10 +25,17 @@ public class MainBO {
 
     private final ShortFcstBO shortFcstBO;
     private final ShortFcstAPI shortFcstAPI;
+    private final SearchShopBO searchShopBO;
 
+    /**
+     * weather
+     * @param todayFcst
+     * @return
+     */
     public ShortFcst getTodayFcst(String todayFcst) {
         return shortFcstBO.getTodayFcst(todayFcst);
     }
+
 
     // TODO x, y 서버에 존재 시 select로 불러와 (desc -> list reverse) 뿌리고, 없으면 API 호출
     public List<ShortFcst> getShortFcstlist(Double lat, Double lon) {
@@ -31,6 +44,7 @@ public class MainBO {
         String y = gridCoord.ny + "";
         return shortFcstBO.getShortFcstlist(x, y);
     }
+
 
     public void setShortFcst(Double lat, Double lon) {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
@@ -48,4 +62,21 @@ public class MainBO {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * style
+     * @param todayTemp
+     * @param topStyle
+     * @return
+     */
+    public List<SearchShop> getUserTopList(Double todayTemp, String topStyle) {
+        return searchShopBO.getUserTopList(todayTemp, topStyle);
+    }
+
+
+    public List<SearchShop> getTopList(Double todayTemp) {
+        return searchShopBO.getTopList(todayTemp);
+    }
+
 }

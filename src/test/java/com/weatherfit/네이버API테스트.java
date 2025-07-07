@@ -14,14 +14,10 @@ import java.util.Map;
 @Component
 public class 네이버API테스트 {
 
-//    @Value("${naver.client-id}")
-//    private String clientId;
-//    @Value("${naver.client-secret}")
-//    private String clientSecret;
-
     public static void main(String[] args) {
 
         String text = null;
+        int display = 30;
         try {
             text = URLEncoder.encode("남자반팔티", "UTF-8"); // 클라 관심 스타일 + 기온별 (ex. switch/case문으로 반팔, 긴팔, 패딩 등) 파라미터 받아오기
         } catch (UnsupportedEncodingException e) {
@@ -29,22 +25,16 @@ public class 네이버API테스트 {
         }
 
 
-        String apiURL = "https://openapi.naver.com/v1/search/shop?query=" + text;    // JSON 결과
-        //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
+        String apiURL = "https://openapi.naver.com/v1/search/shop?query=" + text + "&display=" + display;// JSON 결과
 
-
-//        Map<String, String> requestHeaders = new HashMap<>();
-//        requestHeaders.put("X-Naver-Client-Id", clientId);
-//        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-//        String responseBody = get(apiURL,requestHeaders);
 
         Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", "8i7F1kxa7zNs7nJDeNiv");
-        requestHeaders.put("X-Naver-Client-Secret", "pokIuwR_wY");
-        String responseBody = get(apiURL,requestHeaders);
+        requestHeaders.put("X-Naver-Client-Id", "");
+        requestHeaders.put("X-Naver-Client-Secret", "");
+        String responseBodyTop = get(apiURL,requestHeaders);
 
 
-        System.out.println(responseBody);
+        System.out.println(responseBodyTop);
     }
 
 
