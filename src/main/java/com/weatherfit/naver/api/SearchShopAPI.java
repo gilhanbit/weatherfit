@@ -19,17 +19,21 @@ public class SearchShopAPI {
     @Value("${naver.client-secret}")
     private String clientSecret;
 
-    public void main(String[] args) {
+    public String callNaverSearchShopAPI(String[] args) {
 
+        // TODO 유저 스타일+기온에 맞는 차림 받아와서 -> urlencoder에 넣기
+        String search = null;
         String text = null;
+        int display = 30;
+
         try {
-            text = URLEncoder.encode("그린팩토리", "UTF-8"); // 클라 관심 스타일 + 기온별 (ex. switch/case문으로 반팔, 긴팔, 패딩 등) 파라미터 받아오기
+            text = URLEncoder.encode(search, "UTF-8"); // 클라 관심 스타일 + 기온별 (ex. switch/case문으로 반팔, 긴팔, 패딩 등) 파라미터 받아오기
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }
 
 
-        String apiURL = "https://openapi.naver.com/v1/search/shop?query=" + text;    // JSON 결과
+        String apiURL = "https://openapi.naver.com/v1/search/shop?query=" + text + "&display=" + display; // JSON 결과
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
 
 
@@ -39,7 +43,8 @@ public class SearchShopAPI {
         String responseBody = get(apiURL,requestHeaders);
 
 
-        System.out.println(responseBody);
+//        System.out.println(responseBody);
+        return responseBody;
     }
 
 

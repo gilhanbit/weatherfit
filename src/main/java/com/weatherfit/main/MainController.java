@@ -31,11 +31,14 @@ public class MainController {
             Model model
     ) {
 
+        /**
+         * 기상 Data
+         */
+
+        // 오늘 날짜로 요일 계산
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String todayFcst = today.format(formatter);
-
-        // 오늘날짜로 요일 계산
         List<String> weekList = new ArrayList<>();
 
         for (int i = 1; i <= 7; i++) {
@@ -68,6 +71,11 @@ public class MainController {
             List<ShortFcst> getShortFcstlist = mainBO.getShortFcstlist(37.497979, 127.027616);
             model.addAttribute("shortFcstList", getShortFcstlist);
         }
+
+
+        /**
+         * 스타일 Data
+         */
 
         return "main/mainPage";
     }
