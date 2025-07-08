@@ -19,4 +19,5 @@ public class ShortFcst {
     private LocalDateTime createdAt;
 
     private Integer tmpDiff;
+    private String advice;
 }

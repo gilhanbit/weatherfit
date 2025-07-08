@@ -19,14 +19,14 @@ public class SearchShopAPI {
     @Value("${naver.client-secret}")
     private String clientSecret;
 
-    public String callNaverSearchShopAPIByUserTop(String userTop) {
+    public String callNaverSearchShopAPI(String words) {
 
         // TODO 유저 스타일+기온에 맞는 차림 받아와서 -> urlencoder에 넣기
         String text = null;
         int display = 30;
 
         try {
-            text = URLEncoder.encode(userTop, "UTF-8");
+            text = URLEncoder.encode(words, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }
@@ -44,34 +44,6 @@ public class SearchShopAPI {
 
 //        System.out.println(responseBody);
         return responseBodyUserTop;
-    }
-
-
-    public String callNaverSearchShopAPIByTop(String noUserTop) {
-
-        // TODO 유저 스타일+기온에 맞는 차림 받아와서 -> urlencoder에 넣기
-        String text = null;
-        int display = 30;
-
-        try {
-            text = URLEncoder.encode(noUserTop, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("검색어 인코딩 실패",e);
-        }
-
-
-        String apiURL = "https://openapi.naver.com/v1/search/shop?query=" + text + "&display=" + display; // JSON 결과
-//        String apiURL = "https://openapi.naver.com/v1/search/shop.xml?query=" + text + "&display=" + display; // XML 결과
-
-
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        String responseBodyTop = get(apiURL,requestHeaders);
-
-
-//        System.out.println(responseBody);
-        return responseBodyTop;
     }
 
 
