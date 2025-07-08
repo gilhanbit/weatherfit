@@ -70,13 +70,32 @@ public class MainBO {
      * @param topStyle
      * @return
      */
+    // top
     public List<SearchShop> getUserTopList(Double todayTemp, String topStyle) {
         return searchShopBO.getUserTopList(todayTemp, topStyle);
     }
-
 
     public List<SearchShop> getTopList(Double todayTemp) {
         return searchShopBO.getTopList(todayTemp);
     }
 
+
+    // bottom
+    public List<SearchShop> getUserBottomList(Double todayTemp, String bottomStyle) {
+        return searchShopBO.getUserBottomList(todayTemp, bottomStyle);
+    }
+
+    public List<SearchShop> getBottomList(Double todayTemp) {
+        return searchShopBO.getBottomList(todayTemp);
+    }
+
+
+    // shoes
+    public List<SearchShop> getUserShoesList(Double todayTemp, String shoesStyle) {
+        return searchShopBO.getUserShoesList(todayTemp, shoesStyle);
+    }
+
+    public List<SearchShop> getShoesList(Double todayTemp) {
+        return searchShopBO.getShoesList(todayTemp);
+    }
 }

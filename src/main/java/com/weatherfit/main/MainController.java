@@ -90,20 +90,35 @@ public class MainController {
 
 
         // 로그인 (기온+스타일)
-        if (userId != null) {
+        if (topStyle != null && bottomStyle != null && shoesStyle != null) {
             // API 호출
             List<SearchShop> userTopList = mainBO.getUserTopList(todayTemp, topStyle);
+            List<SearchShop> userBottomList = mainBO.getUserBottomList(todayTemp, bottomStyle);
+            List<SearchShop> userShoesList = mainBO.getUserShoesList(todayTemp, shoesStyle);
+
             // main
             SearchShop mainTop = userTopList.get(0);
+            SearchShop mainBottom = userBottomList.get(0);
+            SearchShop mainShoes = userShoesList.get(0);
             model.addAttribute("mainTop", mainTop);
+            model.addAttribute("mainBottom", mainBottom);
+            model.addAttribute("mainShoes", mainShoes);
+
             // like list
 
         } else {
             // API 호출
-            List<SearchShop> userTopList = mainBO.getTopList(todayTemp);
+            List<SearchShop> topList = mainBO.getTopList(todayTemp);
+            List<SearchShop> bottomList = mainBO.getBottomList(todayTemp);
+            List<SearchShop> shoesList = mainBO.getShoesList(todayTemp);
+
             // main
-            SearchShop mainTop = userTopList.get(0);
+            SearchShop mainTop = topList.get(0);
+            SearchShop mainBottom = bottomList.get(0);
+            SearchShop mainShoes = shoesList.get(0);
             model.addAttribute("mainTop", mainTop);
+            model.addAttribute("mainBottom", mainBottom);
+            model.addAttribute("mainShoes", mainShoes);
         }
         return "main/mainPage";
     }

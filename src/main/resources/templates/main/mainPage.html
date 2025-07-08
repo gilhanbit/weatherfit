@@ -25,7 +25,7 @@
 
         <!-- 스타일 -->
         <section class="container">
-            <h3 class="d-flex justify-content-center align-items-end" style="height:200px;">가볍고 시원한 코디 추천해요 (if 기온에 맞춘 다양한 멘트)</h3>
+            <h3 class="d-flex justify-content-center align-items-end" style="height:200px;" th:text="${todayFcst.advice}">가볍고 시원한 코디 추천해요 (if 기온에 맞춘 다양한 멘트)</h3>
             <div class="custom-style d-flex justify-content-between align-items-center mt-3">
                 <div class="custom-style-box d-flex justify-content-center align-items-center">
                     <a th:href="${mainTop.link}">
@@ -33,13 +33,13 @@
                     </a>
                 </div>
                 <div class="custom-style-box d-flex justify-content-center align-items-center">
-                    <a href="https://www.musinsa.com/products/4817239">
-                        <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250221/4817239/4817239_17490247132938_big.jpg?w=1200" width="350px" height="450px">
+                    <a th:href="${mainBottom.link}">
+                        <img th:src="${mainBottom.image}" width="350px" height="450px">
                     </a>
                 </div>
                 <div class="custom-style-box d-flex justify-content-center align-items-center">
-                    <a href="https://www.musinsa.com/products/4827479">
-                        <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250225/4827479/4827479_17437342462925_big.png?w=1200" width="350px" height="450px">
+                    <a th:href="${mainShoes.link}">
+                        <img th:src="${mainShoes.image}" width="350px" height="450px">
                     </a>
                 </div>
             </div>

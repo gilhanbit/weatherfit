@@ -11,6 +11,5 @@ public class SearchShop {
     private String link;
     private String image;
     private Integer lprice;
-    private Integer hprice;
 
 }

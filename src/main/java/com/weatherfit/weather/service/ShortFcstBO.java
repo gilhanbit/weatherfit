@@ -21,7 +21,29 @@ public class ShortFcstBO {
     private final ShortFcstMapper shortFcstMapper;
 
     public ShortFcst getTodayFcst(String todayFcst) {
-        return shortFcstMapper.selectTodayFcst(todayFcst);
+        ShortFcst shortFcst = shortFcstMapper.selectTodayFcst(todayFcst);
+        Double todayTemp = shortFcst.getTmp();
+        int now = (int)Math.round(todayTemp);
+
+        String advice = null;
+
+        if (now >= 24) {
+            advice = "가볍고 시원한 코디 추천해요.";
+        } else if (now >= 20) {
+            advice = "선선한 날씨에요. 얇은 긴팔을 추천해요.";
+        } else if (now >= 17) {
+            advice = "조금 쌀쌀 할 수 있어요. 맨투맨을 추천해요.";
+        } else if (now >= 11) {
+            advice = "바람이 차가울 수 있으니 자켓을 챙기는 걸 추천해요.";
+        } else if (now >= 6) {
+            advice = "쌀쌀한 하루예요. 두툼한 자켓이 어울려요.";
+        } else if (now >= 0) {
+            advice = "패딩이 필요한 날씨예요. 따뜻하게 입으세요.";
+        } else if (now < 0) {
+            advice = "한파 주의! 두꺼운 패딩과 내복까지 준비하세요.";
+        }
+        shortFcst.setAdvice(advice);
+        return shortFcst;
     }
 
     // 클라 위치에 맞는 서버 데이터 확인
