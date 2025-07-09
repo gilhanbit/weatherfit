@@ -19,14 +19,14 @@ public class SearchShopAPI {
     @Value("${naver.client-secret}")
     private String clientSecret;
 
-    public String callNaverSearchShopAPI(String words) {
+    public String callNaverSearchShopAPI(String keyword) {
 
         // TODO 유저 스타일+기온에 맞는 차림 받아와서 -> urlencoder에 넣기
         String text = null;
         int display = 30;
 
         try {
-            text = URLEncoder.encode(words, "UTF-8");
+            text = URLEncoder.encode(keyword, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }

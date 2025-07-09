@@ -2,5 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.weatherfit.user.mapper.LikeMapper">
+    <insert id="insertProduct">
+        INSERT INTO `like`
+        (
+            `userId`
+            ,`link`
+            ,`image`
+            ,`title`
+            ,`lprice`
+            ,`createdAt`
+        )
+        VALUES
+        (
+            #{userId}
+            ,#{link}
+            ,#{image}
+            ,#{title}
+            ,#{lprice}
+            ,NOW()
+        )
+    </insert>
 
+
+    <select id="selectLikeList10">
+        SELECT
+            *
+        FROM
+            `like`
+        WHERE
+            `userId` = #{userId}
+        ORDER BY `id`
+        DESC LIMIT 10
+    </select>
+
+
+    <select id="selectLikeList">
+        SELECT
+            *
+        FROM
+            `like`
+        WHERE
+            `userId` = #{userId}
+        ORDER BY `id`
+        DESC
+    </select>
+    
+    
+    <delete id="delProduct">
+        DELETE
+        FROM
+            `like`
+        WHERE
+            `id` = #{id}
+    </delete>
 </mapper>

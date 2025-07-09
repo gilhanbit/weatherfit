@@ -6,25 +6,25 @@
 <th:block layout:fragment="content">
     <section class="container contents d-flex justify-content-between align-items-end">
         <span>
-            <h3>OOO님의 콕 리스트</h3>
+            <h3 th:text="|${user.name}님의 콕 리스트|">OOO님의 콕 리스트</h3>
         </span>
     </section>
 
     <!-- 한 페이지 5-10개 -->
     <section>
         <!-- th:each -->
-        <div class="container d-flex mt-3">
+        <div class="container d-flex mt-3" th:each="like:${likeList}">
             <div class="product d-flex align-items-center border-bottom p-0 col-10">
                 <div class="productImage">
-                    <a href="https://www.musinsa.com/products/5108154">
-                        <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250513/5108154/5108154_17472128265340_big.jpg?w=1200" width="150px" height="180px">
+                    <a th:href="${like.link}">
+                        <img th:src="${like.image}" width="150px" height="180px">
                     </a>
                 </div>
                 <div class="productInfo d-flex justify-content-start align-items-end" style="margin-left:50px;">
                     <div>
                         <div style="margin-bottom:25px;">
                             품명 :
-                            <span>캐주얼한 호랑이 프린팅으로 기운이 솟아나는 상의</span>
+                            <span th:utext="${like.title}">캐주얼한 호랑이 프린팅으로 기운이 솟아나는 상의</span>
                         </div>
                         <div style="margin-bottom:25px;">
                             최고가 :
@@ -32,13 +32,13 @@
                         </div>
                         <div style="margin-bottom:25px;">
                             최저가 :
-                            <span>42,000원</span>
+                            <span th:text="${like.lprice}">42,000원</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-center align-items-center col-2">
-                <a href="#" class="deleteBtn">
+                <a href="#" class="deleteBtn" th:data-like-id="${like.id}">
                     <img src="https://www.iconninja.com/files/512/953/150/trash-icon.png" width="15" height="20">
                 </a>
             </div>
@@ -48,7 +48,7 @@
     <!-- 페이징 마크업 -->
     <section class="container d-flex justify-content-center align-items-center">
         <div class="pageInfo_wrap">
-            <div class="pageInfo_area">
+            <div class="pageInfo_area d-flex justify-content-center">
                 <ul id="pageInfo" class="pageInfo">
                 <!-- 이전페이지 버튼 -->
 <!--                <c:if test="${pageMaker.prev}">-->
@@ -68,4 +68,31 @@
             </div>
         </div>
     </section>
+
+    <script>
+        $(function() {
+            $(".deleteBtn").on("click", function() {
+                event.preventDefault();
+
+                let likeId = $(this).data('like-id');
+
+                $.ajax({
+                  type:"get"
+                  , url:"/product/delete"
+                  , data:{"likeId":likeId}
+                  , success:function(data) {
+                      if (data.code == 200) {
+                          alert(data.message);
+                          location.reload();
+                      } else {
+                          alert(data.message);
+                      }
+                  }
+                  , error:function(e) {
+                      alert("삭제에 실패했습니다.");
+                  }
+                });
+            }); // --- 콕 리스트 삭제 끝
+        });
+    </script>
 </th:block>

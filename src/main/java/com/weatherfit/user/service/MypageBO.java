@@ -17,10 +17,12 @@ public class MypageBO {
 
     private final UserBO userBO;
     private final StyleBO styleBO;
+    private final LikeBO likeBO;
 
     public User getUser(Integer userId) {
         return userBO.getUser(userId);
     }
+
 
     public Style getUserStyle(Integer userId) {
         Style isStyle = styleBO.getUserStyle(userId);
@@ -34,7 +36,18 @@ public class MypageBO {
         return isStyle;
     }
 
+
 //    public List<Like> generateUserLike(Integer userId) {
 //        return likeBO.getLikeList();
 //    }
+
+
+    public List<Like> getLikeList10(int userId) {
+        return likeBO.getLikeList10(userId);
+    }
+
+
+    public List<Like> getLikeList(int userId) {
+        return likeBO.getLikeList(userId);
+    }
 }

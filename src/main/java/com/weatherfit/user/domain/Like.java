@@ -10,12 +10,11 @@ import java.time.LocalDateTime;
 public class Like {
 
     private int id;
-    private String userId;
-    private String title;
+    private int userId;
     private String link;
     private String image;
-    private int lowPrice;
-    private int highPrice;
-    private String brand;
+    private String title;
+    private int lprice;
     private LocalDateTime createdAt;
+
 }

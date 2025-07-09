@@ -13,35 +13,76 @@
     <!-- 한 페이지 30개 -->
     <section>
         <!-- th:each -->
-        <div class="container d-flex mt-3">
+        <div class="container d-flex mt-3" th:each="keyword:${keywordList}">
             <div class="product d-flex align-items-center border-bottom p-0 col-10">
                 <div class="productImage">
-                    <a href="https://www.musinsa.com/products/5108154">
-                        <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250513/5108154/5108154_17472128265340_big.jpg?w=1200" width="150px" height="180px">
+                    <a th:href="${keyword.link}">
+                        <img th:src="${keyword.image}" width="150px" height="180px">
                     </a>
                 </div>
                 <div class="productInfo d-flex justify-content-start align-items-end" style="margin-left:50px;">
                     <div>
                         <div style="margin-bottom:25px;">
                             품명 :
-                            <span>캐주얼한 호랑이 프린팅으로 기운이 솟아나는 상의</span>
+                            <span th:utext="${keyword.title}">캐주얼한 호랑이 프린팅으로 기운이 솟아나는 상의</span>
                         </div>
                         <div style="margin-bottom:25px;">
                             최고가 :
-                            <span>48,000원</span>
+                            <span>-</span>
                         </div>
                         <div style="margin-bottom:25px;">
                             최저가 :
-                            <span>42,000원</span>
+                            <span th:text="${keyword.lprice}">42,000원</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center align-items-center col-2">
-                <a href="#" class="addBtn">
+            <div class="d-flex justify-content-center align-items-center col-2" th:if="${userId}">
+                <a href="#" class="addBtn"
+                   th:data-user-id="${userId}"
+                   th:data-link="${keyword.link}"
+                   th:data-image="${keyword.image}"
+                   th:data-title="${keyword.title}"
+                   th:data-lprice="${keyword.lprice}"
+                >
                     <img src="https://www.iconninja.com/files/800/185/120/add-icon.png" width="20" height="20">
                 </a>
             </div>
         </div>
     </section>
+
+    <script>
+        $(function() {
+            $(".addBtn").on("click", function() {
+                event.preventDefault();
+
+                let userId = $(this).data('user-id');
+                let link = $(this).data('link');
+                let image = $(this).data('image');
+                let title = $(this).data('title');
+                let lprice = $(this).data('lprice');
+
+                if(!userId){
+                    alert("로그인이 필요합니다.");
+                    return;
+                }
+
+                $.ajax({
+                  type:"get"
+                  , url:"/product/add"
+                  , data:{"userId":userId, "link":link, "image":image, "title":title, "lprice":lprice}
+                  , success:function(data) {
+                      if (data.code == 200) {
+                          alert(data.message);
+                      } else {
+                          alert(data.message);
+                      }
+                  }
+                  , error:function(e) {
+                      alert("저장에 실패했습니다.");
+                  }
+                });
+            }); // --- 콕 리스트 저장 끝
+        });
+    </script>
 </th:block>

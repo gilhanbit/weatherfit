@@ -61,7 +61,6 @@ public class SearchShopBO {
         return SearchShopParser.parseSearchShop(json);
     }
 
-    // no user
     public List<SearchShop> getBottomList(Double todayTemp) {
 
         String bottomByTemp = OutfitByTemp.bottomByTemp(todayTemp);
@@ -86,11 +85,17 @@ public class SearchShopBO {
         return SearchShopParser.parseSearchShop(json);
     }
 
-    // no user
     public List<SearchShop> getShoesList(Double todayTemp) {
 
         String shoesByTemp = OutfitByTemp.shoesByTemp(todayTemp);
         String json = searchShopAPI.callNaverSearchShopAPI(shoesByTemp);
+
+        return SearchShopParser.parseSearchShop(json);
+    }
+
+
+    public List<SearchShop> getKeywordList(String keyword) {
+        String json = searchShopAPI.callNaverSearchShopAPI(keyword);
 
         return SearchShopParser.parseSearchShop(json);
     }
