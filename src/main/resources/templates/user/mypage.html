@@ -99,38 +99,15 @@
 
     <!-- 콕 리스트 (랜덤하게 가져오는 것보다 desc로 가져오는 것이 현재 날씨와 적합) -->
     <div class="container d-flex justify-content-start align-items-end" style="height:150px;">
-        <h3>콕 리스트</h3>
+        <h3>
+            <a href="/user/like">콕 리스트</a>
+        </h3>
     </div>
     <section class="container">
         <div class="wrap-vertical custom-style d-flex justify-content-between align-items-center">
-            <div class="custom-style-box d-flex justify-content-center align-items-center">
-                <a href="https://www.musinsa.com/products/5108154">
-                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250513/5108154/5108154_17472128265340_big.jpg?w=1200" width="300px" height="400px">
-                </a>
-            </div>
-            <div class="custom-style-box d-flex justify-content-center align-items-center">
-                <a href="https://www.musinsa.com/products/4817239">
-                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250221/4817239/4817239_17490247132938_big.jpg?w=1200" width="300px" height="400px">
-                </a>
-            </div>
-            <div class="custom-style-box d-flex justify-content-center align-items-center">
-                <a href="https://www.musinsa.com/products/4827479">
-                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250225/4827479/4827479_17437342462925_big.png?w=1200" width="300px" height="400px">
-                </a>
-            </div>
-            <div class="custom-style-box d-flex justify-content-center align-items-center">
-                <a href="https://www.musinsa.com/products/5108154">
-                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250513/5108154/5108154_17472128265340_big.jpg?w=1200" width="300px" height="400px">
-                </a>
-            </div>
-            <div class="custom-style-box d-flex justify-content-center align-items-center">
-                <a href="https://www.musinsa.com/products/4817239">
-                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250221/4817239/4817239_17490247132938_big.jpg?w=1200" width="300px" height="400px">
-                </a>
-            </div>
-            <div class="custom-style-box d-flex justify-content-center align-items-center">
-                <a href="https://www.musinsa.com/products/4827479">
-                    <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250225/4827479/4827479_17437342462925_big.png?w=1200" width="300px" height="400px">
+            <div class="custom-style-box d-flex justify-content-center align-items-center" th:each="like:${likeList10}">
+                <a th:href="${like.link}">
+                    <img th:src="${like.image}" width="300px" height="400px">
                 </a>
             </div>
         </div>

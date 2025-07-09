@@ -1,17 +1,11 @@
 package com.weatherfit.user;
 
-import com.weatherfit.common.response.ApiResponse;
-import com.weatherfit.common.response.ErrorStatus;
-import com.weatherfit.common.response.SuccessStatus;
-import com.weatherfit.user.domain.MypageDTO;
+import com.weatherfit.user.domain.Like;
 import com.weatherfit.user.domain.Style;
 import com.weatherfit.user.domain.User;
-import com.weatherfit.user.entity.UserEntity;
 import com.weatherfit.user.service.MypageBO;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +34,27 @@ public class UserController {
 
 //        List<MypageDTO> mypageDTOList = mypageBO.generateUserLike((Integer)session.getAttribute("userId"));
 //        model.addAttribute("myPage", mypageDTOList);
+
+        List<Like> likeList10 = mypageBO.getLikeList10((Integer)session.getAttribute("userId"));
+        model.addAttribute("likeList10", likeList10);
+
         return "user/mypage";
     }
+
+
+    @GetMapping("/like")
+    public String like(
+            Model model,
+            HttpSession session
+    ) {
+
+        User user = mypageBO.getUser((Integer)session.getAttribute("userId"));
+        model.addAttribute("user", user);
+
+        List<Like> likeList = mypageBO.getLikeList((Integer)session.getAttribute("userId"));
+        model.addAttribute("likeList", likeList);
+
+        return "like/like";
+    }
+
 }
