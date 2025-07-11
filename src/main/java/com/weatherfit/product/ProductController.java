@@ -28,6 +28,7 @@ public class ProductController {
 
         Integer userId = (Integer) session.getAttribute("userId");
         model.addAttribute("userId", userId);
+
         List<SearchShop> keywordList = productBO.getKeywordList(keyword);
         model.addAttribute("keywordList", keywordList);
         return "product/searchList";

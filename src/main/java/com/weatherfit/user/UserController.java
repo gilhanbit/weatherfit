@@ -3,9 +3,13 @@ package com.weatherfit.user;
 import com.weatherfit.user.domain.Like;
 import com.weatherfit.user.domain.Style;
 import com.weatherfit.user.domain.User;
+import com.weatherfit.user.entity.LikeEntity;
 import com.weatherfit.user.service.MypageBO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +36,6 @@ public class UserController {
         Style style = mypageBO.getUserStyle((Integer)session.getAttribute("userId"));
         model.addAttribute("style", style);
 
-//        List<MypageDTO> mypageDTOList = mypageBO.generateUserLike((Integer)session.getAttribute("userId"));
-//        model.addAttribute("myPage", mypageDTOList);
-
         List<Like> likeList10 = mypageBO.getLikeList10((Integer)session.getAttribute("userId"));
         model.addAttribute("likeList10", likeList10);
 
@@ -51,7 +52,7 @@ public class UserController {
         User user = mypageBO.getUser((Integer)session.getAttribute("userId"));
         model.addAttribute("user", user);
 
-        List<Like> likeList = mypageBO.getLikeList((Integer)session.getAttribute("userId"));
+        List<Like> likeList = mypageBO.getLikeList((Integer) session.getAttribute("userId"));
         model.addAttribute("likeList", likeList);
 
         return "like/like";

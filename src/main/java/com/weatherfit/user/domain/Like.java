@@ -1,5 +1,6 @@
 package com.weatherfit.user.domain;
 
+import com.weatherfit.user.entity.LikeEntity;
 import lombok.Data;
 import lombok.ToString;
 

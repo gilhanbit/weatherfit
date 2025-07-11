@@ -46,8 +46,8 @@
             <!-- 검색 -->
             <div class="search-box-wrapper" style="z-index: 2;">
                 <div class="search-box">
-                    <form class="d-flex align-items-center" method="get" action="/product/search-list">
-                        <input class="search-txt" type="text" name="keyword" placeholder="검색어를 입력해 주세요">
+                    <form class="d-flex align-items-center" id="searchForm" method="get" action="/product/search-list">
+                        <input class="search-txt" type="text" id="keywordInput" name="keyword" placeholder="검색어를 입력해 주세요">
                         <button class="search-btn" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -80,6 +80,14 @@
             document.body.appendChild(form);
             form.submit();
         });
+
+        document.getElementById("searchForm").addEventListener("submit", function(e) {
+        const keyword = document.getElementById("keywordInput").value.trim();
+        if (!keyword) {
+            e.preventDefault();
+            return;
+        }
+    });
     </script>
 </th:block>
 </html>

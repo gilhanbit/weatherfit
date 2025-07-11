@@ -46,8 +46,8 @@
         ORDER BY `id`
         DESC
     </select>
-    
-    
+
+
     <delete id="delProduct">
         DELETE
         FROM
