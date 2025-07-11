@@ -1,14 +1,14 @@
 package com.weatherfit.user.service;
 
 import com.weatherfit.user.domain.Like;
-import com.weatherfit.user.domain.MypageDTO;
 import com.weatherfit.user.domain.Style;
 import com.weatherfit.user.domain.User;
-import com.weatherfit.user.entity.UserEntity;
+import com.weatherfit.user.entity.LikeEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,11 +37,6 @@ public class MypageBO {
     }
 
 
-//    public List<Like> generateUserLike(Integer userId) {
-//        return likeBO.getLikeList();
-//    }
-
-
     public List<Like> getLikeList10(int userId) {
         return likeBO.getLikeList10(userId);
     }
@@ -50,4 +45,5 @@ public class MypageBO {
     public List<Like> getLikeList(int userId) {
         return likeBO.getLikeList(userId);
     }
+
 }

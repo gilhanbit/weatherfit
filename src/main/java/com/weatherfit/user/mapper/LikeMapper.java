@@ -1,7 +1,9 @@
 package com.weatherfit.user.mapper;
 
 import com.weatherfit.user.domain.Like;
+import com.weatherfit.user.entity.LikeEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
