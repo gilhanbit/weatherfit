@@ -3,7 +3,7 @@ package com.weatherfit.sign;
 import com.weatherfit.common.response.ApiResponse;
 import com.weatherfit.common.response.ErrorStatus;
 import com.weatherfit.common.response.SuccessStatus;
-import com.weatherfit.sign.service.KakaoLoginBO;
+import com.weatherfit.jwt.JwtTokenProvider;
 import com.weatherfit.sign.service.SignBO;
 import com.weatherfit.user.domain.Style;
 import com.weatherfit.user.entity.UserEntity;
@@ -11,10 +11,9 @@ import com.weatherfit.user.service.StyleBO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +25,8 @@ public class SignRestController {
 
     private final SignBO signBO;
     private final StyleBO styleBO;
-    private final KakaoLoginBO kakaoLoginBO;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/sign-in")
     public ResponseEntity<ApiResponse<Void>> signIn(
