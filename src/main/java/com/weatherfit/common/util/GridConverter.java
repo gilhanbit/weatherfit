@@ -1,4 +1,4 @@
-package com.weatherfit.common;
+package com.weatherfit.common.util;
 
 public class GridConverter {
 

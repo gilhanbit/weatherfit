@@ -1,11 +1,9 @@
 package com.weatherfit.main.service;
 
-import com.weatherfit.common.GridConverter;
-import com.weatherfit.naver.api.SearchShopAPI;
+import com.weatherfit.common.excel.LocationDataParser;
+import com.weatherfit.common.util.GridConverter;
 import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.naver.service.SearchShopBO;
-import com.weatherfit.user.domain.Style;
-import com.weatherfit.user.service.StyleBO;
 import com.weatherfit.weather.api.ShortFcstAPI;
 import com.weatherfit.weather.domain.ShortFcst;
 import com.weatherfit.weather.service.ShortFcstBO;
@@ -15,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
@@ -26,6 +22,8 @@ public class MainBO {
     private final ShortFcstBO shortFcstBO;
     private final ShortFcstAPI shortFcstAPI;
     private final SearchShopBO searchShopBO;
+    private final LocationDataParser locationDataParser;
+
 
     /**
      * weather
@@ -61,6 +59,22 @@ public class MainBO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * user location
+     * @param lat
+     * @param lon
+     * @return
+     */
+    public String getLocation(Double lat, Double lon) {
+        GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
+        String x = gridCoord.nx + "";
+        String y = gridCoord.ny + "";
+
+        String location = locationDataParser.userLocation(x, y);
+        return location;
     }
 
 
