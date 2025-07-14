@@ -62,6 +62,9 @@ public class MainController {
             List<ShortFcst> getShortFcstlist = mainBO.getShortFcstlist(lat, lon);
             model.addAttribute("shortFcstList", getShortFcstlist);
 
+            String getUserLocation = mainBO.getLocation(lat, lon);
+            model.addAttribute("userLocation", getUserLocation);
+
             if (getShortFcstlist == null) {
                 mainBO.setShortFcst(lat, lon);
             }
@@ -73,6 +76,9 @@ public class MainController {
 
             List<ShortFcst> getShortFcstlist = mainBO.getShortFcstlist(37.497979, 127.027616);
             model.addAttribute("shortFcstList", getShortFcstlist);
+
+            String getUserLocation = mainBO.getLocation(37.497979, 127.027616);
+            model.addAttribute("userLocation", getUserLocation);
         }
 
 
