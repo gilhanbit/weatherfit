@@ -3,14 +3,13 @@ package com.weatherfit.sign;
 import com.weatherfit.sign.domain.KakaoUserInfoDTO;
 import com.weatherfit.sign.service.KakaoLoginBO;
 import com.weatherfit.sign.service.SignBO;
+import com.weatherfit.user.domain.User;
 import com.weatherfit.user.entity.UserEntity;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,9 +37,16 @@ public class SignController {
 
 
     @GetMapping("/sign-in")
-    public String signIn(Model model) {
+    public String signIn(Model model,
+                         HttpSession session) {
+
         String location = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+clientId+"&redirect_uri="+redirectUri;
         model.addAttribute("location", location);
+
+        User user = signBO.findUser((Integer)session.getAttribute("userId"));
+        if (user != null) {
+            return "redirect:/user/remypage";
+        }
 
         return "sign/signIn";
     }
@@ -75,7 +81,11 @@ public class SignController {
 
 
     @GetMapping("/sign-up")
-    public String signUp() {
+    public String signUp(HttpSession session) {
+        User user = signBO.findUser((Integer)session.getAttribute("userId"));
+        if (user != null) {
+            return "redirect:/user/remypage";
+        }
         return "sign/signUp";
     }
 

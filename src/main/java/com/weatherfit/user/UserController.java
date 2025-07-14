@@ -39,6 +39,24 @@ public class UserController {
         List<Like> likeList10 = mypageBO.getLikeList10((Integer)session.getAttribute("userId"));
         model.addAttribute("likeList10", likeList10);
 
+        return "redirect:/user/remypage";
+    }
+
+
+    @GetMapping("/remypage")
+    public String remypage(
+            Model model,
+            HttpSession session) {
+
+        User user = mypageBO.getUser((Integer)session.getAttribute("userId"));
+        model.addAttribute("user", user);
+
+        Style style = mypageBO.getUserStyle((Integer)session.getAttribute("userId"));
+        model.addAttribute("style", style);
+
+        List<Like> likeList10 = mypageBO.getLikeList10((Integer)session.getAttribute("userId"));
+        model.addAttribute("likeList10", likeList10);
+
         return "user/mypage";
     }
 
