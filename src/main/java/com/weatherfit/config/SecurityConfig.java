@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(allowUrls).permitAll()
                 .anyRequest().permitAll() // 모든 요청 허용
+
                 );
 
         return http.build();
