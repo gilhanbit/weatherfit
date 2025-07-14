@@ -56,6 +56,9 @@ dependencies {
 
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// Spring Session
+	implementation 'org.springframework.session:spring-session-data-redis'
 }
 
 tasks.named('test') {
