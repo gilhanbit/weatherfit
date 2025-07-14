@@ -1,8 +1,10 @@
 package com.weatherfit.sign.service;
 
+import com.weatherfit.user.domain.User;
 import com.weatherfit.user.entity.UserEntity;
 import com.weatherfit.user.mapper.UserMapper;
 import com.weatherfit.user.repository.UserRepository;
+import com.weatherfit.user.service.MypageBO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ public class SignBO {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final MypageBO mypageBO;
 
     public boolean setUser(String loginId, String password, String name, String email) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -49,6 +52,12 @@ public class SignBO {
             return null;
         }
     }
+
+
+    public User findUser(Integer userId) {
+        return mypageBO.getUser(userId);
+    }
+
 
     public UserEntity findUserLoginId(String name, String email) {
         return userRepository.findByNameAndEmail(name, email).orElse(null);

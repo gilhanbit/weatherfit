@@ -45,9 +45,9 @@ dependencies {
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 	implementation 'com.google.code.gson:gson:2.10'
 
-	// excel data (격자 좌표에 따른 location text -> header 뿌리기)
-	implementation 'org.apache.poi:poi:5.2.3'
-	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+	// POI excel data (격자 좌표에 따른 location text -> header 뿌리기)
+	implementation 'org.apache.poi:poi:5.3.0'
+	implementation 'org.apache.poi:poi-ooxml:5.3.0'
 
 	// JWT 생성 및 검증을 위한 라이브러리
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5' // 핵심 JWT 인터페이스 & 빌더 API
