@@ -110,7 +110,7 @@
     </select>
 
 
-    <select id="selectNearBottom">
+    <select id="selectNearShoes">
         SELECT
             `like`.title
         FROM
