@@ -26,7 +26,7 @@
         <!-- 스타일 -->
         <section class="container">
             <h3 class="d-flex justify-content-center align-items-end" style="height:200px;" th:text="${todayFcst.advice}">가볍고 시원한 코디 추천해요 (if 기온에 맞춘 다양한 멘트)</h3>
-            <div class="custom-style d-flex justify-content-between align-items-center mt-3">
+            <div id="slider" class="custom-style d-flex justify-content-between align-items-center mt-3">
                 <div class="custom-style-box d-flex justify-content-center align-items-center">
                     <a th:href="${mainTop.link}">
                         <img th:src="${mainTop.image}" width="350px" height="450px">
@@ -62,24 +62,27 @@
             </div>
         </section>
 
-    <script>
-        $(function() {
-            navigator.geolocation.getCurrentPosition(function(pos) {
-                let lat = pos.coords.latitude; // 위도
-                let lon = pos.coords.longitude; // 경도
-                console.log(lat);
-                console.log(lon);
-                $.ajax({
-                    url: "/weatherfit/main",
-                    data: {"lat": lat, "lon": lon},
-                    success: function(data) {
-                        alert("위치를 불러오는데 성공했습니다.");
-                    },
-                    error: function() {
-                        alert("위치를 불러오는데 실패했습니다.");
-                    }
+        <script>
+            $(function() {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    let lat = pos.coords.latitude; // 위도
+                    let lon = pos.coords.longitude; // 경도
+
+
+                    $.ajax({
+                        url: "/weatherfit/main",
+                        data: {"lat": lat, "lon": lon},
+                        success: function() {
+                            console.log(lat);
+                            console.log(lon);
+                        },
+                        error: function() {
+                            alert("위치를 불러오는데 실패했습니다.");
+                        }
+                    });
                 });
-            });
-        });
-    </script>
+
+
+             });
+        </script>
 </th:block>

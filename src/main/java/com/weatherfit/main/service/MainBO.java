@@ -4,6 +4,8 @@ import com.weatherfit.common.excel.LocationDataParser;
 import com.weatherfit.common.util.GridConverter;
 import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.naver.service.SearchShopBO;
+import com.weatherfit.user.service.LikeBO;
+import com.weatherfit.user.service.UserBO;
 import com.weatherfit.weather.api.ShortFcstAPI;
 import com.weatherfit.weather.domain.ShortFcst;
 import com.weatherfit.weather.service.ShortFcstBO;
@@ -23,6 +25,8 @@ public class MainBO {
     private final ShortFcstAPI shortFcstAPI;
     private final SearchShopBO searchShopBO;
     private final LocationDataParser locationDataParser;
+    private final UserBO userBO;
+    private final LikeBO likeBO;
 
 
     /**
@@ -75,6 +79,45 @@ public class MainBO {
 
         String location = locationDataParser.userLocation(x, y);
         return location;
+    }
+
+
+    public void setLocation(Integer userId, Double lat, Double lon) {
+        GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
+        Integer x = gridCoord.nx;
+        Integer y = gridCoord.ny;
+
+        userBO.setLocation(userId, x, y);
+    }
+
+
+    /**
+     * nearStyle
+     */
+    public List<String> getNearTop(Double lat, Double lon, String topStyle) {
+        GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
+        Integer x = gridCoord.nx;
+        Integer y = gridCoord.ny;
+
+        return likeBO.getNearTop(x, y, topStyle);
+    }
+
+
+    public List<String> getNearBottom(Double lat, Double lon, String bottomStyle) {
+        GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
+        Integer x = gridCoord.nx;
+        Integer y = gridCoord.ny;
+
+        return likeBO.getNearBottom(x, y, bottomStyle);
+    }
+
+
+    public List<String> getNearShoes(Double lat, Double lon, String shoesStyle) {
+        GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
+        Integer x = gridCoord.nx;
+        Integer y = gridCoord.ny;
+
+        return likeBO.getNearShoes(x, y, shoesStyle);
     }
 
 

@@ -1,17 +1,12 @@
 package com.weatherfit.naver.service;
 
 import com.weatherfit.common.OutfitByTemp;
-import com.weatherfit.common.SearchShopParser;
+import com.weatherfit.common.util.SearchShopParser;
 import com.weatherfit.naver.api.SearchShopAPI;
 import com.weatherfit.naver.domain.SearchShop;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 @RequiredArgsConstructor

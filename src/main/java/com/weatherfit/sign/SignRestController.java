@@ -45,6 +45,7 @@ public class SignRestController {
             session.setAttribute("top", style.getTop());
             session.setAttribute("bottom", style.getBottom());
             session.setAttribute("shoes", style.getShoes());
+
             return ApiResponse.onSuccess(SuccessStatus.OK, null);
         } else {
             return ApiResponse.onFail(ErrorStatus.BAD_REQUEST);

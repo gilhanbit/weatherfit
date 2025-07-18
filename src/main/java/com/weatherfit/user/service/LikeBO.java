@@ -1,5 +1,7 @@
 package com.weatherfit.user.service;
 
+import com.weatherfit.common.util.GridConverter;
+import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.user.domain.Like;
 import com.weatherfit.user.entity.LikeEntity;
 import com.weatherfit.user.mapper.LikeMapper;
@@ -20,8 +22,8 @@ public class LikeBO {
     private final LikeMapper likeMapper;
     private final LikeRepository likeRepository;
 
-    public int setProduct(int userId, String link, String image, String title, int lprice) {
-        return likeMapper.insertProduct(userId, link, image, title, lprice);
+    public int setProduct(int userId, String link, String image, String title, int lprice, String category1, String category2, String category3) {
+        return likeMapper.insertProduct(userId, link, image, title, lprice, category1, category2, category3);
     }
 
 
@@ -42,5 +44,27 @@ public class LikeBO {
 
     public int delProduct(int likeId) {
         return likeMapper.delProduct(likeId);
+    }
+
+
+    /**
+     * nearStyle
+     * @param x
+     * @param y
+     * @param topStyle
+     * @return
+     */
+    public List<String> getNearTop(Integer x, Integer y, String topStyle) {
+        return likeMapper.selectNearTop(x, y, topStyle);
+    }
+
+
+    public List<String> getNearBottom(Integer x, Integer y, String bottomStyle) {
+        return likeMapper.selectNearBottom(x, y, bottomStyle);
+    }
+
+
+    public List<String> getNearShoes(Integer x, Integer y, String shoesStyle) {
+        return likeMapper.selectNearShoes(x, y, shoesStyle);
     }
 }
