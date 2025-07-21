@@ -1,5 +1,6 @@
 package com.weatherfit.main;
 
+import com.weatherfit.common.util.TitleParser;
 import com.weatherfit.main.service.MainBO;
 import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.weather.domain.ShortFcst;
@@ -157,13 +158,20 @@ public class MainController {
             // 상의
             List<String> nearTop = mainBO.getNearTop(lat, lon, topStyle);
             // title keyword 추출
+            List<String> nearTopTitle = TitleParser.keywordFrequency(nearTop);
 
 
             // 하의
             List<String> nearBottom = mainBO.getNearBottom(lat, lon, bottomStyle);
+            // title keyword 추출
+            List<String> nearBottomTitle = TitleParser.keywordFrequency(nearBottom);
+
 
             // 신발
             List<String> nearShoes = mainBO.getNearShoes(lat, lon, shoesStyle);
+            // title keyword 추출
+            List<String> nearShoesTitle = TitleParser.keywordFrequency(nearShoes);
+
         }
 
         return "main/mainPage";

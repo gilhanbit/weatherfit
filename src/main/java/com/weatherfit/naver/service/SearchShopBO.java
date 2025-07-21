@@ -25,6 +25,10 @@ public class SearchShopBO {
     public List<SearchShop> getUserTopList(Double todayTemp, String top) {
 
         String topByTemp = OutfitByTemp.topByTemp(todayTemp);
+
+        // 중복 키워드 제거
+
+
         String userTop = top + topByTemp;
         String json = searchShopAPI.callNaverSearchShopAPI(userTop);
 
