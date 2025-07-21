@@ -11,6 +11,19 @@
             `id` = #{userId}
     </select>
 
+
+    <update id="updateLocation">
+        UPDATE
+            `user`
+        SET
+            `x` = #{x}
+            ,`y` = #{y}
+            ,`updatedAt` = NOW()
+        WHERE
+            `id` = #{userId}
+    </update>
+
+
     <update id="updatePw">
         UPDATE
             `user`
@@ -24,6 +37,7 @@
         AND
             `email` = #{email}
     </update>
+
 
     <update id="updateUserInfo">
         UPDATE

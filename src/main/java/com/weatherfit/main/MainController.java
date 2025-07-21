@@ -1,5 +1,6 @@
 package com.weatherfit.main;
 
+import com.weatherfit.common.util.TitleParser;
 import com.weatherfit.main.service.MainBO;
 import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.weather.domain.ShortFcst;
@@ -26,6 +27,7 @@ public class MainController {
 
     private final MainBO mainBO;
 
+
     @GetMapping("/main")
     public String mainPage(
             @RequestParam(value="lat", required = false) Double lat,
@@ -34,10 +36,10 @@ public class MainController {
             HttpSession session
     ) {
 
+
         /**
          * 기상 Data
          */
-
         // 오늘 날짜로 요일 계산
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -52,32 +54,56 @@ public class MainController {
             weekList.add(koreanDayOfWeek);
         }
 
+
         model.addAttribute("weekList", weekList);
+
+        Integer userId = (Integer) session.getAttribute("userId");
+
 
         // TODO 클라 nx, ny 좌표 받아서 API에 삽입 -> 내 서버 저장 -> 좌표와 일치하는 최신 데이터 3개 호출 -> 응답 값 model에 담아 뿌리기
         if (lat != null && lon != null) {
+
+            if (userId != null) {
+                mainBO.setLocation(userId, lat, lon);
+            }
+
             ShortFcst getTodayFcst = mainBO.getTodayFcst(todayFcst);
             model.addAttribute("todayFcst" ,getTodayFcst);
+
 
             List<ShortFcst> getShortFcstlist = mainBO.getShortFcstlist(lat, lon);
             model.addAttribute("shortFcstList", getShortFcstlist);
 
+
             String getUserLocation = mainBO.getLocation(lat, lon);
+            session.setAttribute("userLocation", getUserLocation);
             model.addAttribute("userLocation", getUserLocation);
+
 
             if (getShortFcstlist == null) {
                 mainBO.setShortFcst(lat, lon);
             }
+
+
         } else if (lat == null || lon == null) {
+
+            if (userId != null) {
+                mainBO.setLocation(userId, 37.497979, 127.027616);
+            }
+
             mainBO.setShortFcst(37.497979, 127.027616);
+
 
             ShortFcst getTodayFcst = mainBO.getTodayFcst(todayFcst);
             model.addAttribute("todayFcst" ,getTodayFcst);
 
+
             List<ShortFcst> getShortFcstlist = mainBO.getShortFcstlist(37.497979, 127.027616);
             model.addAttribute("shortFcstList", getShortFcstlist);
 
+
             String getUserLocation = mainBO.getLocation(37.497979, 127.027616);
+            session.setAttribute("userLocation", getUserLocation);
             model.addAttribute("userLocation", getUserLocation);
         }
 
@@ -85,7 +111,6 @@ public class MainController {
         /**
          * 스타일 Data
          */
-        Integer userId = (Integer)session.getAttribute("userId");
         String topStyle = (String)session.getAttribute("top");
         String bottomStyle = (String)session.getAttribute("bottom");
         String shoesStyle = (String)session.getAttribute("shoes");
@@ -101,7 +126,6 @@ public class MainController {
             List<SearchShop> userTopList = mainBO.getUserTopList(todayTemp, topStyle);
             List<SearchShop> userBottomList = mainBO.getUserBottomList(todayTemp, bottomStyle);
             List<SearchShop> userShoesList = mainBO.getUserShoesList(todayTemp, shoesStyle);
-
             // main
             SearchShop mainTop = userTopList.get(0);
             SearchShop mainBottom = userBottomList.get(0);
@@ -126,6 +150,30 @@ public class MainController {
             model.addAttribute("mainBottom", mainBottom);
             model.addAttribute("mainShoes", mainShoes);
         }
+
+
+        // TODO nearTOP title keyword 추출 -> 빈도수 높은 키워드 + 유저 스타일 키워드 + 기온에 맞는 차림 -> API 요청
+        // 주변 동일 스타일 랜덤 9명의 콕리스트
+        if (lat != null && lon != null && topStyle != null && bottomStyle != null && shoesStyle != null) {
+            // 상의
+            List<String> nearTop = mainBO.getNearTop(lat, lon, topStyle);
+            // title keyword 추출
+            List<String> nearTopTitle = TitleParser.keywordFrequency(nearTop);
+
+
+            // 하의
+            List<String> nearBottom = mainBO.getNearBottom(lat, lon, bottomStyle);
+            // title keyword 추출
+            List<String> nearBottomTitle = TitleParser.keywordFrequency(nearBottom);
+
+
+            // 신발
+            List<String> nearShoes = mainBO.getNearShoes(lat, lon, shoesStyle);
+            // title keyword 추출
+            List<String> nearShoesTitle = TitleParser.keywordFrequency(nearShoes);
+
+        }
+
         return "main/mainPage";
     }
 }

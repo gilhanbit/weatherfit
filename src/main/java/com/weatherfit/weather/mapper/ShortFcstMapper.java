@@ -3,7 +3,6 @@ package com.weatherfit.weather.mapper;
 import com.weatherfit.weather.domain.ShortFcst;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 @Mapper

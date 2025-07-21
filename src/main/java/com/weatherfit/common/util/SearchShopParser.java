@@ -1,4 +1,4 @@
-package com.weatherfit.common;
+package com.weatherfit.common.util;
 
 import com.weatherfit.naver.domain.SearchShop;
 import org.json.simple.parser.JSONParser;
@@ -25,6 +25,9 @@ public class SearchShopParser {
                 shop.setLink((String) obj.get("link"));
                 shop.setImage((String) obj.get("image"));
                 shop.setLprice(Integer.parseInt((String) obj.get("lprice")));
+                shop.setCategory1((String) obj.get("category1"));
+                shop.setCategory2((String) obj.get("category2"));
+                shop.setCategory3((String) obj.get("category3"));
                 list.add(shop);
             }
         } catch (Exception e) {

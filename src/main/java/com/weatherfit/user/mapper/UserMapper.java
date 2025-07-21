@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
 
     public User selectUserByUserId(Integer userId);
+    public void updateLocation(Integer userId, Integer x, Integer y);
     public void updatePw(String loginId, String name, String email, String hashedPassword);
     public boolean updateUserInfo(int userId, String hashedPassword, String email);
 }

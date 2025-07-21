@@ -10,6 +10,9 @@
             ,`image`
             ,`title`
             ,`lprice`
+            ,`category1`
+            ,`category2`
+            ,`category3`
             ,`createdAt`
         )
         VALUES
@@ -19,6 +22,9 @@
             ,#{image}
             ,#{title}
             ,#{lprice}
+            ,#{category1}
+            ,#{category2}
+            ,#{category3}
             ,NOW()
         )
     </insert>
@@ -55,4 +61,73 @@
         WHERE
             `id` = #{id}
     </delete>
+
+
+    <select id="selectNearTop">
+        SELECT
+            `like`.title
+        FROM
+            `like`
+        JOIN
+            `user` ON `like`.userId = `user`.id
+        JOIN
+            `style` ON `like`.userId = `style`.userId
+        WHERE
+            `user`.x &gt; #{x} - 2 AND `user`.x &lt; #{x} + 2
+        AND
+            `user`.y &gt; #{y} - 2 AND `user`.y &lt; #{y} + 2
+        AND
+            `style`.top = #{topStyle}
+        AND
+            `like`.category3 LIKE '%셔츠%'
+        ORDER BY RAND()
+        LIMIT 9;
+    </select>
+
+
+    <select id="selectNearBottom">
+        SELECT
+            `like`.title
+        FROM
+            `like`
+        JOIN
+            `user` ON `like`.userId = `user`.id
+        JOIN
+            `style` ON `like`.userId = `style`.userId
+        WHERE
+            `user`.x &gt; #{x} - 2 AND `user`.x &lt; #{x} + 2
+        AND
+            `user`.y &gt; #{y} - 2 AND `user`.y &lt; #{y} + 2
+        AND
+            `style`.bottom = #{bottomStyle}
+        AND
+        (
+            `like`.category3 LIKE '바지' OR
+            `like`.category3 LIKE '스커트'
+        )
+        ORDER BY RAND()
+        LIMIT 9;
+    </select>
+
+
+    <select id="selectNearShoes">
+        SELECT
+            `like`.title
+        FROM
+            `like`
+        JOIN
+            `user` ON `like`.userId = `user`.id
+        JOIN
+            `style` ON `like`.userId = `style`.userId
+        WHERE
+            `user`.x &gt; #{x} - 2 AND `user`.x &lt; #{x} + 2
+        AND
+            `user`.y &gt; #{y} - 2 AND `user`.y &lt; #{y} + 2
+        AND
+            `style`.shoes = #{shoesStyle}
+        AND
+            `like`.category2 LIKE '%신발'
+        ORDER BY RAND()
+        LIMIT 9;
+    </select>
 </mapper>

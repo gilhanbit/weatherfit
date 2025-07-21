@@ -44,6 +44,9 @@
                    th:data-image="${keyword.image}"
                    th:data-title="${keyword.title}"
                    th:data-lprice="${keyword.lprice}"
+                   th:data-category1="${keyword.category1}"
+                   th:data-category2="${keyword.category2}"
+                   th:data-category3="${keyword.category3}"
                 >
                     <img src="https://www.iconninja.com/files/800/185/120/add-icon.png" width="20" height="20">
                 </a>
@@ -61,6 +64,9 @@
                 let image = $(this).data('image');
                 let title = $(this).data('title');
                 let lprice = $(this).data('lprice');
+                let category1 = $(this).data('category1');
+                let category2 = $(this).data('category2');
+                let category3 = $(this).data('category3');
 
                 if(!userId){
                     alert("로그인이 필요합니다.");
@@ -68,19 +74,28 @@
                 }
 
                 $.ajax({
-                  type:"get"
-                  , url:"/product/add"
-                  , data:{"userId":userId, "link":link, "image":image, "title":title, "lprice":lprice}
-                  , success:function(data) {
-                      if (data.code == 200) {
+                    type: "post",
+                    url: "/product/add",
+                    data: {
+                        "userId": userId,
+                        "link": link,
+                        "image": image,
+                        "title": title,
+                        "lprice": lprice,
+                        "category1": category1,
+                        "category2": category2,
+                        "category3": category3
+                      },
+                    success: function (data) {
+                        if (data.code == 200) {
                           alert(data.message);
-                      } else {
+                        } else {
                           alert(data.message);
-                      }
-                  }
-                  , error:function(e) {
-                      alert("저장에 실패했습니다.");
-                  }
+                        }
+                    },
+                    error: function (e) {
+                        alert("저장에 실패했습니다.");
+                    }
                 });
             }); // --- 콕 리스트 저장 끝
         });

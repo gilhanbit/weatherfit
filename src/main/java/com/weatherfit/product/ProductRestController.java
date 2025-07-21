@@ -7,10 +7,7 @@ import com.weatherfit.product.service.ProductBO;
 import com.weatherfit.user.domain.Like;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/product")
@@ -19,16 +16,19 @@ public class ProductRestController {
 
     private final ProductBO productBO;
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<ApiResponse<Void>> add(
             @RequestParam("userId") int userId,
             @RequestParam("link") String link,
             @RequestParam("image") String image,
             @RequestParam("title") String title,
-            @RequestParam("lprice") int lprice
+            @RequestParam("lprice") int lprice,
+            @RequestParam(value="category1", required = false) String category1,
+            @RequestParam(value="category2", required = false) String category2,
+            @RequestParam(value="category3", required = false) String category3
     ) {
 
-        int success = productBO.setProduct(userId, link, image, title, lprice);
+        int success = productBO.setProduct(userId, link, image, title, lprice, category1, category2, category3);
 
         if (success > 0) {
             return ApiResponse.onSuccess(SuccessStatus.OK, null);

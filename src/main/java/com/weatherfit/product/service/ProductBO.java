@@ -21,8 +21,8 @@ public class ProductBO {
     }
 
 
-    public int setProduct(int userId, String link, String image, String title, int lprice) {
-        return likeBO.setProduct(userId, link, image, title, lprice);
+    public int setProduct(int userId, String link, String image, String title, int lprice, String category1, String category2, String category3) {
+        return likeBO.setProduct(userId, link, image, title, lprice, category1, category2, category3);
     }
 
 

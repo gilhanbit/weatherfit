@@ -16,6 +16,12 @@ public class UserBO {
         return userMapper.selectUserByUserId(userId);
     }
 
+
+    public void setLocation(Integer userId, Integer x, Integer y) {
+        userMapper.updateLocation(userId, x, y);
+    }
+
+
     public boolean updateUserInfo(int userId, String password, String email) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String hashedPassword = encoder.encode(password);
