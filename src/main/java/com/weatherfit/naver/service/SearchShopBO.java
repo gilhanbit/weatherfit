@@ -22,14 +22,21 @@ public class SearchShopBO {
      * @return
      */
     // user
-    public List<SearchShop> getUserTopList(Double todayTemp, String top) {
+    public List<SearchShop> getUserTopList(Double todayTemp, String top,  List<String> nearTop) {
 
         String topByTemp = OutfitByTemp.topByTemp(todayTemp);
+        String nearKeyword = null;
+
 
         // 중복 키워드 제거
+        for (int i = 0; i < 3; i++) {
+            if (!nearTop.get(i).equals(topByTemp) && !nearTop.get(i).equals(top)) {
+                nearKeyword = nearTop.get(i);
+            }
+        }
 
 
-        String userTop = top + topByTemp;
+        String userTop = topByTemp + top + nearKeyword;
         String json = searchShopAPI.callNaverSearchShopAPI(userTop);
 
         return SearchShopParser.parseSearchShop(json);

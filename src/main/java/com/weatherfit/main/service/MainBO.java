@@ -2,6 +2,7 @@ package com.weatherfit.main.service;
 
 import com.weatherfit.common.excel.LocationDataParser;
 import com.weatherfit.common.util.GridConverter;
+import com.weatherfit.common.util.TitleParser;
 import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.naver.service.SearchShopBO;
 import com.weatherfit.user.service.LikeBO;
@@ -98,8 +99,10 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         Integer x = gridCoord.nx;
         Integer y = gridCoord.ny;
+        List<String> nearTop = likeBO.getNearTop(x, y, topStyle);
+        List<String> nearTopTitle = TitleParser.keywordFrequency(nearTop);
 
-        return likeBO.getNearTop(x, y, topStyle);
+        return nearTopTitle;
     }
 
 
@@ -107,8 +110,10 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         Integer x = gridCoord.nx;
         Integer y = gridCoord.ny;
+        List<String> nearBottom = likeBO.getNearBottom(x, y, bottomStyle);
+        List<String> nearBottomTitle = TitleParser.keywordFrequency(nearBottom);
 
-        return likeBO.getNearBottom(x, y, bottomStyle);
+        return nearBottomTitle;
     }
 
 
@@ -116,8 +121,10 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         Integer x = gridCoord.nx;
         Integer y = gridCoord.ny;
+        List<String> nearShoes = likeBO.getNearShoes(x, y, shoesStyle);
+        List<String> nearShoesTitle = TitleParser.keywordFrequency(nearShoes);
 
-        return likeBO.getNearShoes(x, y, shoesStyle);
+        return nearShoesTitle;
     }
 
 
@@ -128,8 +135,8 @@ public class MainBO {
      * @return
      */
     // top
-    public List<SearchShop> getUserTopList(Double todayTemp, String topStyle) {
-        return searchShopBO.getUserTopList(todayTemp, topStyle);
+    public List<SearchShop> getUserTopList(Double todayTemp, String topStyle, List<String> nearTop) {
+        return searchShopBO.getUserTopList(todayTemp, topStyle, nearTop);
     }
 
     public List<SearchShop> getTopList(Double todayTemp) {
