@@ -58,10 +58,21 @@ public class SearchShopBO {
      * @param bottom
      * @return
      */
-    public List<SearchShop> getUserBottomList(Double todayTemp, String bottom) {
+    public List<SearchShop> getUserBottomList(Double todayTemp, String bottom, List<String> nearBottom) {
 
         String bottomByTemp = OutfitByTemp.bottomByTemp(todayTemp);
-        String userBottom = bottom + bottomByTemp;
+        String nearKeyword = null;
+
+
+        // 중복 키워드 제거
+        for (int i = 0; i < 3; i++) {
+            if (!nearBottom.get(i).equals(bottomByTemp) && !nearBottom.get(i).equals(bottom)) {
+                nearKeyword = nearBottom.get(i);
+            }
+        }
+
+
+        String userBottom = bottom + bottomByTemp + nearKeyword;
         String json = searchShopAPI.callNaverSearchShopAPI(userBottom);
 
         return SearchShopParser.parseSearchShop(json);
@@ -82,10 +93,21 @@ public class SearchShopBO {
      * @param shoes
      * @return
      */
-    public List<SearchShop> getUserShoesList(Double todayTemp, String shoes) {
+    public List<SearchShop> getUserShoesList(Double todayTemp, String shoes, List<String> nearShoes) {
 
         String shoesByTemp = OutfitByTemp.shoesByTemp(todayTemp);
-        String userShoes = shoes + shoesByTemp;
+        String nearKeyword = null;
+
+
+        // 중복 키워드 제거
+        for (int i = 0; i < 3; i++) {
+            if (!nearShoes.get(i).equals(shoesByTemp) && !nearShoes.get(i).equals(shoes)) {
+                nearKeyword = nearShoes.get(i);
+            }
+        }
+
+
+        String userShoes = shoes + shoesByTemp + nearKeyword;
         String json = searchShopAPI.callNaverSearchShopAPI(userShoes);
 
         return SearchShopParser.parseSearchShop(json);

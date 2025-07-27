@@ -80,8 +80,6 @@
             `style`.top = #{topStyle}
         AND
             `like`.category3 LIKE '%셔츠%'
-        ORDER BY RAND()
-        LIMIT 9;
     </select>
 
 
@@ -105,8 +103,6 @@
             `like`.category3 LIKE '바지' OR
             `like`.category3 LIKE '스커트'
         )
-        ORDER BY RAND()
-        LIMIT 9;
     </select>
 
 
@@ -127,7 +123,5 @@
             `style`.shoes = #{shoesStyle}
         AND
             `like`.category2 LIKE '%신발'
-        ORDER BY RAND()
-        LIMIT 9;
     </select>
 </mapper>
