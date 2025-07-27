@@ -75,6 +75,11 @@ public class SignController {
         session.removeAttribute("userId");
         session.removeAttribute("userName");
         session.removeAttribute("userLoginId");
+        session.removeAttribute("userEmail");
+
+        session.removeAttribute("top");
+        session.removeAttribute("bottom");
+        session.removeAttribute("shoes");
 
         return "redirect:/weatherfit/main";
     }

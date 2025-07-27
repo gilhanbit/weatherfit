@@ -2,6 +2,7 @@ package com.weatherfit.main.service;
 
 import com.weatherfit.common.excel.LocationDataParser;
 import com.weatherfit.common.util.GridConverter;
+import com.weatherfit.common.util.TitleParser;
 import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.naver.service.SearchShopBO;
 import com.weatherfit.user.service.LikeBO;
@@ -13,9 +14,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +35,23 @@ public class MainBO {
     private final UserBO userBO;
     private final LikeBO likeBO;
 
+    public String dayFormat() {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return today.format(formatter);
+    }
+
+
+    public List<String> getNext7DaysInKorean() {
+        List<String> weekList = new ArrayList<>();
+        for (int i = 1; i <= 7; i++) {
+            LocalDate day = LocalDate.now().plusDays(i);
+            DayOfWeek dayOfWeek = day.getDayOfWeek();
+            String koreanDayOfWeek = dayOfWeek.getDisplayName(TextStyle.FULL, new Locale("ko", "KR"));
+            weekList.add(koreanDayOfWeek);
+        }
+        return weekList;
+    }
 
     /**
      * weather
@@ -98,8 +122,14 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         Integer x = gridCoord.nx;
         Integer y = gridCoord.ny;
+        List<String> nearTop = likeBO.getNearTop(x, y, topStyle);
+        Collections.shuffle(nearTop);
+        List<String> randomTop = nearTop.stream()
+                .limit(9)
+                .collect(Collectors.toList());
+        List<String> nearTopTitle = TitleParser.keywordFrequency(randomTop);
 
-        return likeBO.getNearTop(x, y, topStyle);
+        return nearTopTitle;
     }
 
 
@@ -107,8 +137,14 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         Integer x = gridCoord.nx;
         Integer y = gridCoord.ny;
+        List<String> nearBottom = likeBO.getNearBottom(x, y, bottomStyle);
+        Collections.shuffle(nearBottom);
+        List<String> randomBottom = nearBottom.stream()
+                .limit(9)
+                .collect(Collectors.toList());
+        List<String> nearBottomTitle = TitleParser.keywordFrequency(randomBottom);
 
-        return likeBO.getNearBottom(x, y, bottomStyle);
+        return nearBottomTitle;
     }
 
 
@@ -116,8 +152,14 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         Integer x = gridCoord.nx;
         Integer y = gridCoord.ny;
+        List<String> nearShoes = likeBO.getNearShoes(x, y, shoesStyle);
+        Collections.shuffle(nearShoes);
+        List<String> randomShoes = nearShoes.stream()
+                .limit(9)
+                .collect(Collectors.toList());
+        List<String> nearShoesTitle = TitleParser.keywordFrequency(randomShoes);
 
-        return likeBO.getNearShoes(x, y, shoesStyle);
+        return nearShoesTitle;
     }
 
 
@@ -128,8 +170,8 @@ public class MainBO {
      * @return
      */
     // top
-    public List<SearchShop> getUserTopList(Double todayTemp, String topStyle) {
-        return searchShopBO.getUserTopList(todayTemp, topStyle);
+    public List<SearchShop> getUserTopList(Double todayTemp, String topStyle, List<String> nearTop) {
+        return searchShopBO.getUserTopList(todayTemp, topStyle, nearTop);
     }
 
     public List<SearchShop> getTopList(Double todayTemp) {
@@ -138,8 +180,8 @@ public class MainBO {
 
 
     // bottom
-    public List<SearchShop> getUserBottomList(Double todayTemp, String bottomStyle) {
-        return searchShopBO.getUserBottomList(todayTemp, bottomStyle);
+    public List<SearchShop> getUserBottomList(Double todayTemp, String bottomStyle, List<String> nearBottom) {
+        return searchShopBO.getUserBottomList(todayTemp, bottomStyle, nearBottom);
     }
 
     public List<SearchShop> getBottomList(Double todayTemp) {
@@ -148,8 +190,8 @@ public class MainBO {
 
 
     // shoes
-    public List<SearchShop> getUserShoesList(Double todayTemp, String shoesStyle) {
-        return searchShopBO.getUserShoesList(todayTemp, shoesStyle);
+    public List<SearchShop> getUserShoesList(Double todayTemp, String shoesStyle, List<String> nearShoes) {
+        return searchShopBO.getUserShoesList(todayTemp, shoesStyle, nearShoes);
     }
 
     public List<SearchShop> getShoesList(Double todayTemp) {
