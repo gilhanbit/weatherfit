@@ -1,6 +1,9 @@
 package com.weatherfit.user.service;
 
 import com.weatherfit.common.util.GridConverter;
+import com.weatherfit.common.util.NearSampling;
+import com.weatherfit.common.util.TitleParser;
+import com.weatherfit.domain.NearTitleSamplingDTO;
 import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.user.domain.Like;
 import com.weatherfit.user.entity.LikeEntity;
@@ -13,14 +16,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class LikeBO {
 
     private final LikeMapper likeMapper;
-    private final LikeRepository likeRepository;
+    private final NearSampling nearSampling;
 
     public int setProduct(int userId, String link, String image, String title, int lprice, String category1, String category2, String category3) {
         return likeMapper.insertProduct(userId, link, image, title, lprice, category1, category2, category3);
@@ -55,16 +60,25 @@ public class LikeBO {
      * @return
      */
     public List<String> getNearTop(Integer x, Integer y, String topStyle) {
-        return likeMapper.selectNearTop(x, y, topStyle);
+        List<NearTitleSamplingDTO> nearTop = likeMapper.selectNearTop(x, y, topStyle);
+        List<String> randomTop = NearSampling.nearTitleSampling(nearTop, 9);
+
+        return TitleParser.keywordFrequency(randomTop);
     }
 
 
     public List<String> getNearBottom(Integer x, Integer y, String bottomStyle) {
-        return likeMapper.selectNearBottom(x, y, bottomStyle);
+        List<NearTitleSamplingDTO> nearBottom = likeMapper.selectNearBottom(x, y, bottomStyle);
+        List<String> randomBottom = NearSampling.nearTitleSampling(nearBottom, 9);
+
+        return TitleParser.keywordFrequency(randomBottom);
     }
 
 
     public List<String> getNearShoes(Integer x, Integer y, String shoesStyle) {
-        return likeMapper.selectNearShoes(x, y, shoesStyle);
+        List<NearTitleSamplingDTO> nearShoes = likeMapper.selectNearShoes(x, y, shoesStyle);
+        List<String> randomShoes = NearSampling.nearTitleSampling(nearShoes, 9);
+
+        return TitleParser.keywordFrequency(randomShoes);
     }
 }

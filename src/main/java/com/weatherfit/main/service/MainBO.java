@@ -2,7 +2,6 @@ package com.weatherfit.main.service;
 
 import com.weatherfit.common.excel.LocationDataParser;
 import com.weatherfit.common.util.GridConverter;
-import com.weatherfit.common.util.TitleParser;
 import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.naver.service.SearchShopBO;
 import com.weatherfit.user.service.LikeBO;
@@ -68,6 +67,7 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         String x = gridCoord.nx + "";
         String y = gridCoord.ny + "";
+
         return shortFcstBO.getShortFcstlist(x, y);
     }
 
@@ -122,14 +122,8 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         Integer x = gridCoord.nx;
         Integer y = gridCoord.ny;
-        List<String> nearTop = likeBO.getNearTop(x, y, topStyle);
-        Collections.shuffle(nearTop);
-        List<String> randomTop = nearTop.stream()
-                .limit(9)
-                .collect(Collectors.toList());
-        List<String> nearTopTitle = TitleParser.keywordFrequency(randomTop);
 
-        return nearTopTitle;
+        return likeBO.getNearTop(x, y, topStyle);
     }
 
 
@@ -137,14 +131,8 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         Integer x = gridCoord.nx;
         Integer y = gridCoord.ny;
-        List<String> nearBottom = likeBO.getNearBottom(x, y, bottomStyle);
-        Collections.shuffle(nearBottom);
-        List<String> randomBottom = nearBottom.stream()
-                .limit(9)
-                .collect(Collectors.toList());
-        List<String> nearBottomTitle = TitleParser.keywordFrequency(randomBottom);
 
-        return nearBottomTitle;
+        return likeBO.getNearBottom(x, y, bottomStyle);
     }
 
 
@@ -152,14 +140,8 @@ public class MainBO {
         GridConverter.GridCoord gridCoord = GridConverter.convertToGrid(lat, lon);
         Integer x = gridCoord.nx;
         Integer y = gridCoord.ny;
-        List<String> nearShoes = likeBO.getNearShoes(x, y, shoesStyle);
-        Collections.shuffle(nearShoes);
-        List<String> randomShoes = nearShoes.stream()
-                .limit(9)
-                .collect(Collectors.toList());
-        List<String> nearShoesTitle = TitleParser.keywordFrequency(randomShoes);
 
-        return nearShoesTitle;
+        return likeBO.getNearShoes(x, y, shoesStyle);
     }
 
 

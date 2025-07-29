@@ -27,14 +27,12 @@ public class SearchShopBO {
         String topByTemp = OutfitByTemp.topByTemp(todayTemp);
         String nearKeyword = null;
 
-
         // 중복 키워드 제거
         for (int i = 0; i < 3; i++) {
             if (!nearTop.get(i).equals(topByTemp) && !nearTop.get(i).equals(top)) {
                 nearKeyword = nearTop.get(i);
             }
         }
-
 
         String userTop = topByTemp + top + nearKeyword;
         String json = searchShopAPI.callNaverSearchShopAPI(userTop);
@@ -63,14 +61,12 @@ public class SearchShopBO {
         String bottomByTemp = OutfitByTemp.bottomByTemp(todayTemp);
         String nearKeyword = null;
 
-
         // 중복 키워드 제거
         for (int i = 0; i < 3; i++) {
             if (!nearBottom.get(i).equals(bottomByTemp) && !nearBottom.get(i).equals(bottom)) {
                 nearKeyword = nearBottom.get(i);
             }
         }
-
 
         String userBottom = bottom + bottomByTemp + nearKeyword;
         String json = searchShopAPI.callNaverSearchShopAPI(userBottom);
@@ -98,14 +94,12 @@ public class SearchShopBO {
         String shoesByTemp = OutfitByTemp.shoesByTemp(todayTemp);
         String nearKeyword = null;
 
-
         // 중복 키워드 제거
         for (int i = 0; i < 3; i++) {
             if (!nearShoes.get(i).equals(shoesByTemp) && !nearShoes.get(i).equals(shoes)) {
                 nearKeyword = nearShoes.get(i);
             }
         }
-
 
         String userShoes = shoes + shoesByTemp + nearKeyword;
         String json = searchShopAPI.callNaverSearchShopAPI(userShoes);
