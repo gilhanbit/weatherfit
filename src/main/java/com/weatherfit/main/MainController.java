@@ -72,6 +72,7 @@ public class MainController {
 
 
             ShortFcst getTodayFcst = mainBO.getTodayFcst(todayFcst);
+            session.setAttribute("tmp", getTodayFcst.getTmp());
             model.addAttribute("todayFcst" ,getTodayFcst);
 
 

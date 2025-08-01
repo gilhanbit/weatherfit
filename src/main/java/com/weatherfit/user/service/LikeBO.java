@@ -27,8 +27,13 @@ public class LikeBO {
     private final LikeMapper likeMapper;
     private final NearSampling nearSampling;
 
-    public int setProduct(int userId, String link, String image, String title, int lprice, String category1, String category2, String category3) {
-        return likeMapper.insertProduct(userId, link, image, title, lprice, category1, category2, category3);
+    public int setProduct(Like like) {
+        return likeMapper.insertProduct(like);
+    }
+
+
+    public void setLikeMeta(int userId, int likeId, String gender, int age, int x, int y, double tmp, String title, int lprice) {
+        likeMapper.insertLikeMeta(userId, likeId, gender, age, x, y, tmp, title, lprice);
     }
 
 

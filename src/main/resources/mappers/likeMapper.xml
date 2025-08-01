@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.weatherfit.user.mapper.LikeMapper">
-    <insert id="insertProduct">
+    <insert id="insertProduct" parameterType="com.weatherfit.user.domain.Like" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `like`
         (
             `userId`
@@ -25,6 +25,36 @@
             ,#{category1}
             ,#{category2}
             ,#{category3}
+            ,NOW()
+        )
+    </insert>
+
+
+    <insert id="insertLikeMeta">
+        INSERT INTO `like_meta`
+        (
+            `userId`
+            ,`likeId`
+            ,`gender`
+            ,`age`
+            ,`x`
+            ,`y`
+            ,`tmp`
+            ,`title`
+            ,`lprice`
+            ,`createdAt`
+        )
+        VALUES
+        (
+            #{userId}
+            ,#{likeId}
+            ,#{gender}
+            ,#{age}
+            ,#{x}
+            ,#{y}
+            ,#{tmp}
+            ,#{title}
+            ,#{lprice}
             ,NOW()
         )
     </insert>

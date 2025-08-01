@@ -21,8 +21,13 @@ public class ProductBO {
     }
 
 
-    public int setProduct(int userId, String link, String image, String title, int lprice, String category1, String category2, String category3) {
-        return likeBO.setProduct(userId, link, image, title, lprice, category1, category2, category3);
+    public int setProduct(Like like) {
+        return likeBO.setProduct(like);
+    }
+
+
+    public void setLikeMeta(int userId, int likeId, String gender, int age, int x, int y, double tmp, String title, int lprice) {
+        likeBO.setLikeMeta(userId, likeId, gender, age, x, y, tmp, title, lprice);
     }
 
 

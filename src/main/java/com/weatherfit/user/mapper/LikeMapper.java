@@ -12,7 +12,8 @@ import java.util.List;
 @Mapper
 public interface LikeMapper {
 
-    public int insertProduct(int userId, String link, String image, String title, int lprice, String category1, String category2, String category3);
+    public int insertProduct(Like like);
+    public void insertLikeMeta(int userId, int likeId, String gender, int age, int x, int y, double tmp, String title, int lprice);
     public List<Like> selectLikeList10(int userId);
     public List<Like> selectLikeList(int userId);
     public int delProduct(int likeId);

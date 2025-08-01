@@ -76,6 +76,8 @@ public class SignController {
         session.removeAttribute("userName");
         session.removeAttribute("userLoginId");
         session.removeAttribute("userEmail");
+        session.removeAttribute("userGender");
+        session.removeAttribute("userAge");
 
         session.removeAttribute("top");
         session.removeAttribute("bottom");
