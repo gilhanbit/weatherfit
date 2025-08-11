@@ -44,4 +44,82 @@
         WHERE
             `userId` = #{userId}
     </update>
+
+    <select id="selectTopChartByGA">
+        SELECT
+            `style`.top
+        FROM
+            `user`
+        JOIN
+            `style` ON `style`.userId = `user`.id
+        WHERE
+            `user`.gender = #{gender}
+        AND
+            `user`.age BETWEEN (#{age} * 10) AND (#{age} * 10 + 9)
+    </select>
+
+    <select id="selectBottomChartByGA">
+        SELECT
+            `style`.bottom
+        FROM
+            `user`
+        JOIN
+            `style` ON `style`.userId = `user`.id
+        WHERE
+            `user`.gender = #{gender}
+        AND
+            `user`.age BETWEEN (#{age} * 10) AND (#{age} * 10 + 9)
+    </select>
+
+    <select id="selectShoesChartByGA">
+        SELECT
+            `style`.shoes
+        FROM
+            `user`
+        JOIN
+            `style` ON `style`.userId = `user`.id
+        WHERE
+            `user`.gender = #{gender}
+        AND
+            `user`.age BETWEEN (#{age} * 10) AND (#{age} * 10 + 9)
+    </select>
+
+    <select id="selectTopChartByLocation">
+        SELECT
+            `style`.top
+        FROM
+            `user`
+        JOIN
+            `style` ON `style`.userId = `user`.id
+        WHERE
+            `user`.x BETWEEN (#{x} - 2) AND (#{x} + 2)
+        AND
+            `user`.y BETWEEN (#{y} - 2) AND (#{y} + 2)
+    </select>
+
+    <select id="selectBottomChartByLocation">
+        SELECT
+            `style`.bottom
+        FROM
+            `user`
+        JOIN
+            `style` ON `style`.userId = `user`.id
+        WHERE
+            `user`.x BETWEEN (#{x} - 2) AND (#{x} + 2)
+        AND
+            `user`.y BETWEEN (#{y} - 2) AND (#{y} + 2)
+    </select>
+
+    <select id="selectShoesChartByLocation">
+        SELECT
+            `style`.shoes
+        FROM
+            `user`
+        JOIN
+            `style` ON `style`.userId = `user`.id
+        WHERE
+            `user`.x BETWEEN (#{x} - 2) AND (#{x} + 2)
+        AND
+            `user`.y BETWEEN (#{y} - 2) AND (#{y} + 2)
+    </select>
 </mapper>

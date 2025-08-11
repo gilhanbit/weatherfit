@@ -206,6 +206,11 @@ footer {
   white-space: nowrap;
 }
 
+.keywordChartByGA { width: 320px; height: 240px; }
+.priceChartByGA { width: 320px; height: 240px; }
+.keywordChartByLocation { width: 320px; height: 240px; }
+.priceChartByLocation { width: 320px; height: 240px; }
+
 
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 /* 페이징 기능 */

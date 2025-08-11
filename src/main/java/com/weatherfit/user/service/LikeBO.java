@@ -43,7 +43,7 @@ public class LikeBO {
 
 
     /**
-     * 페이징 X
+     * like list
      * @param userId
      * @return
      */
@@ -85,5 +85,87 @@ public class LikeBO {
         List<String> randomShoes = NearSampling.nearTitleSampling(nearShoes, 9);
 
         return TitleParser.keywordFrequency(randomShoes);
+    }
+
+
+    /**
+     * price by GA
+     * @param gender
+     * @param age
+     * @return
+     */
+    public int getTopPriceChartByGA(String gender, int age) {
+        age = age / 10;
+        List<Integer> topResult = likeMapper.selectTopPriceChartByGA(gender, age);
+
+        int sum = 0;
+        for (int top : topResult) {
+            sum += top;
+        }
+
+        return sum / topResult.size();
+    }
+
+    public int getBottomPriceChartByGA(String gender, int age) {
+        age = age / 10;
+        List<Integer> bottomResult = likeMapper.selectBottomPriceChartByGA(gender, age);
+
+        int sum = 0;
+        for (int bottom : bottomResult) {
+            sum += bottom;
+        }
+
+        return sum / bottomResult.size();
+    }
+
+    public int getShoesPriceChartByGA(String gender, int age) {
+        age = age / 10;
+        List<Integer> shoesResult = likeMapper.selectShoesPriceChartByGA(gender, age);
+
+        int sum = 0;
+        for (int shoes : shoesResult) {
+            sum += shoes;
+        }
+
+        return sum / shoesResult.size();
+    }
+
+    /**
+     * price by location
+     * @param x
+     * @param y
+     * @return
+     */
+    public int getTopPriceChartByLocation(int x, int y) {
+        List<Integer> topResult = likeMapper.selectTopPriceChartByLocation(x, y);
+
+        int sum = 0;
+        for (int top : topResult) {
+            sum += top;
+        }
+
+        return sum / topResult.size();
+    }
+
+    public int getBottomPriceChartByLocation(int x, int y) {
+        List<Integer> bottomResult = likeMapper.selectBottomPriceChartByLocation(x, y);
+
+        int sum = 0;
+        for (int bottom : bottomResult) {
+            sum += bottom;
+        }
+
+        return sum / bottomResult.size();
+    }
+
+    public int getShoesPriceChartByLocation(int x, int y) {
+        List<Integer> shoesResult = likeMapper.selectShoesPriceChartByLocation(x, y);
+
+        int sum = 0;
+        for (int shoes : shoesResult) {
+            sum += shoes;
+        }
+
+        return sum / shoesResult.size();
     }
 }

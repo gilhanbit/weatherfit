@@ -1,6 +1,6 @@
 package com.weatherfit.main.service;
 
-import com.weatherfit.common.excel.LocationDataParser;
+import com.weatherfit.common.util.LocationDataParser;
 import com.weatherfit.common.util.GridConverter;
 import com.weatherfit.naver.domain.SearchShop;
 import com.weatherfit.naver.service.SearchShopBO;
@@ -18,10 +18,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
