@@ -23,6 +23,9 @@ public class LikeEntity {
     private String image;
     private String title;
     private int lprice;
+    private String category1;
+    private String category2;
+    private String category3;
     @CreationTimestamp
     private LocalDateTime createdAt;
 

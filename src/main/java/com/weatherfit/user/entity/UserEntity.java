@@ -21,6 +21,8 @@ public class UserEntity {
     private String password;
     private String name;
     private String email;
+    private String gender;
+    private int age;
     private int x;
     private int y;
     @CreationTimestamp

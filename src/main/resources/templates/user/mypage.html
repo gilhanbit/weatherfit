@@ -4,6 +4,8 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout/defaultLayout}">
 <th:block layout:fragment="content">
+
+
     <!-- 유저 정보 -->
     <section class="container contents d-flex justify-content-between align-items-end">
         <span>
@@ -16,6 +18,7 @@
     <div class="container">
         <span th:text="${session.userLoginId}"></span>
     </div>
+
 
     <!-- 유저 정보 변경 -->
     <section class="container contents bg-light rounded d-flex align-items-center">
@@ -42,6 +45,7 @@
             <button type="submit" id="infoSaveBtn" class="btn btn-secondary" th:data-user-id="${session.userId}">저장</button>
         </section>
     </section>
+
 
     <!-- 유저 스타일 -->
     <div class="container d-flex justify-content-start align-items-end" style="height:150px;">
@@ -97,6 +101,24 @@
         </section>
     </section>
 
+
+    <!-- EDA -->
+    <section class="mt-5 mb-5">
+        <section class="container contents d-flex justify-content-between align-items-center mb-5">
+            <span>또래 동성 선호 키워드</span>
+            <div class="keywordChartByGA"></div>
+            <span>또래 동성 선호 가격</span>
+            <div class="priceChartByGA"></div>
+        </section>
+        <section class="container contents d-flex justify-content-between align-items-center">
+            <span>내 주변 선호 키워드</span>
+            <div class="keywordChartByLocation"></div>
+            <span>내 주변 선호 가격</span>
+            <div class="priceChartByLocation"></div>
+        </section>
+    </section>
+
+
     <!-- 콕 리스트 (랜덤하게 가져오는 것보다 desc로 가져오는 것이 현재 날씨와 적합) -->
     <div class="container d-flex justify-content-start align-items-end" style="height:150px;">
         <h3>
@@ -112,6 +134,7 @@
             </div>
         </div>
     </section>
+
 
     <!-- Modal -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -133,8 +156,190 @@
         </div>
     </div>
 
-    <script>
+
+    <script th:inline="javascript">
         $(function(){
+            // style keyword GA
+            const topObj    = /*[[${topChartByGA}]]*/ {};
+            const bottomObj = /*[[${bottomChartByGA}]]*/ {};
+            const shoesObj  = /*[[${shoesChartByGA}]]*/ {};
+
+            // 값과 키 분리
+            const keys = o => Object.keys(o || {});
+            const vals = o => Object.values(o || {});
+
+            const topK = keys(topObj),    topV = vals(topObj);
+            const botK = keys(bottomObj), botV = vals(bottomObj);
+            const shoK = keys(shoesObj),  shoV = vals(shoesObj);
+
+            // x축
+            const categories = ['Top', 'Bottom', 'Shoes'];
+
+            // 시리즈: Top, Bottom, Shoes
+            const n = x => Number(x ?? 0);
+            const columns = [
+              ['1위', n(topV[0]), n(botV[0]), n(shoV[0])],
+              ['2위', n(topV[1]), n(botV[1]), n(shoV[1])],
+              ['3위', n(topV[2]), n(botV[2]), n(shoV[2])]
+            ];
+
+            // 카테고리별 키워드 저장 (툴팁용)
+            const kwBySeries = { Top: topK, Bottom: botK, Shoes: shoK };
+
+            c3.generate({
+              bindto: '.keywordChartByGA',
+              data: {
+                columns,
+                type: 'bar'
+              },
+              axis: {
+                x: {
+                  type: 'category',
+                  categories: categories
+                }
+              },
+              tooltip: {
+                format: {
+                  value: function (value, ratio, id, index) {
+                      const rankMap = { '1': 0, '2': 1, '3': 2 };
+                      const cat = categories[index];
+                      const r = rankMap[id] ?? 0;
+                      const keyLabel = (kwBySeries[cat] && kwBySeries[cat][r]) ? kwBySeries[cat][r] : '';
+                      return keyLabel ? `${value} (${keyLabel})` : String(value);
+                    }
+                }
+              },
+              bar: { width: { ratio: 0.6 } }
+            });
+
+
+            // price GA
+            // 컨트롤러에서 int 하나씩 넘어옴 → 숫자로 캐스팅
+            const topPrice    = Number(/*[[${topPriceChartByGA}]]*/ 0);
+            const bottomPrice = Number(/*[[${bottomPriceChartByGA}]]*/ 0);
+            const shoesPrice  = Number(/*[[${shoesPriceChartByGA}]]*/ 0);
+
+            const x = ['Top', 'Bottom', 'Shoes'];
+
+            // 단일 시리즈 'Price'에 3개 값
+            const y = [
+              ['가격', topPrice, bottomPrice, shoesPrice],
+            ];
+
+            c3.generate({
+              bindto: '.priceChartByGA',
+              data: {
+                columns: y,          // ✅ y를 columns로 전달
+                type: 'bar'
+              },
+              axis: {
+                x: {
+                  type: 'category',
+                  categories: x
+                }
+              },
+              tooltip: {
+                format: {
+                  // 마우스 오버 시: "Top 12345" 형태
+                  value: function (value, ratio, id, index) {
+                    return x[index] + ' ' + d3.format(',')(value) + '원';
+                  }
+                }
+              },
+              bar: { width: { ratio: 0.6 } }
+            });
+
+
+            // style keyword location
+            const topObje    = /*[[${topChartByLocation}]]*/ {};
+            const bottomObje = /*[[${bottomChartByLocation}]]*/ {};
+            const shoesObje  = /*[[${shoesChartByLocation}]]*/ {};
+
+            // 값과 키 분리 (이 블록 전용 함수명 사용)
+            const keyss = o => Object.keys(o || {});
+            const valss = o => Object.values(o || {});
+
+            // ⚠️ 여기에서 keyss/valss 사용 (keys/vals 아님)
+            const topKs = keyss(topObje),    topVs = valss(topObje);
+            const botKs = keyss(bottomObje), botVs = valss(bottomObje);
+            const shoKs = keyss(shoesObje),  shoVs = valss(shoesObje);
+
+            // x축
+            const categoriess = ['Top', 'Bottom', 'Shoes'];
+
+            // 시리즈
+            const ns = x => Number(x ?? 0);
+            const columnss = [
+              ['1위', ns(topVs[0]), ns(botVs[0]), ns(shoVs[0])],
+              ['2위', ns(topVs[1]), ns(botVs[1]), ns(shoVs[1])],
+              ['3위', ns(topVs[2]), ns(botVs[2]), ns(shoVs[2])]
+            ];
+
+            // 카테고리별 키워드 (툴팁용)
+            const kwBySeriess = { Top: topKs, Bottom: botKs, Shoes: shoKs };
+
+            c3.generate({
+              bindto: '.keywordChartByLocation',
+              data: {
+                // ⚠️ 'columns' 키로 전달해야 함
+                columns: columnss,
+                type: 'bar'
+              },
+              axis: {
+                x: { type: 'category', categories: categoriess }
+              },
+              tooltip: {
+                format: {
+                  value: function (value, ratio, id, index) {
+                    const rankMap = { '1': 0, '2': 1, '3': 2 };
+                    const cat = categoriess[index];
+                    const r = rankMap[id] ?? 0;
+                    const keyLabel = (kwBySeriess[cat] && kwBySeriess[cat][r]) ? kwBySeriess[cat][r] : '';
+                    return keyLabel ? `${value} (${keyLabel})` : String(value);
+                  }
+                }
+              },
+              bar: { width: { ratio: 0.6 } }
+            });
+
+
+            // price location
+            // 컨트롤러에서 int 하나씩 넘어옴 → 숫자로 캐스팅
+            const topPriceLocal    = Number(/*[[${topPriceChartByLocation}]]*/ 0);
+            const bottomPriceLocal = Number(/*[[${bottomPriceChartByLocation}]]*/ 0);
+            const shoesPriceLocal  = Number(/*[[${shoesPriceChartByLocation}]]*/ 0);
+
+            const xLocal = ['Top', 'Bottom', 'Shoes'];
+
+            // 단일 시리즈 'Price'에 3개 값
+            const yLocal = [
+              ['가격', topPriceLocal, bottomPriceLocal, shoesPriceLocal],
+            ];
+
+            c3.generate({
+              bindto: '.priceChartByLocation',
+              data: {
+                columns: yLocal,          // ✅ y를 columns로 전달
+                type: 'bar'
+              },
+              axis: {
+                x: {
+                  type: 'category',
+                  categories: xLocal
+                }
+              },
+              tooltip: {
+                format: {
+                  // 마우스 오버 시: "Top 12345" 형태
+                  value: function (value, ratio, id, index) {
+                    return xLocal[index] + ' ' + d3.format(',')(value) + '원';
+                  }
+                }
+              },
+              bar: { width: { ratio: 0.6 } }
+            });
+
+
             $("#infoSaveBtn").on("click",function(e){
                 e.preventDefault();
 

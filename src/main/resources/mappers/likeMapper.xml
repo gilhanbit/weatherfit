@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.weatherfit.user.mapper.LikeMapper">
-    <insert id="insertProduct">
+    <insert id="insertProduct" parameterType="com.weatherfit.user.domain.Like" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `like`
         (
             `userId`
@@ -25,6 +25,36 @@
             ,#{category1}
             ,#{category2}
             ,#{category3}
+            ,NOW()
+        )
+    </insert>
+
+
+    <insert id="insertLikeMeta">
+        INSERT INTO `like_meta`
+        (
+            `userId`
+            ,`likeId`
+            ,`gender`
+            ,`age`
+            ,`x`
+            ,`y`
+            ,`tmp`
+            ,`title`
+            ,`lprice`
+            ,`createdAt`
+        )
+        VALUES
+        (
+            #{userId}
+            ,#{likeId}
+            ,#{gender}
+            ,#{age}
+            ,#{x}
+            ,#{y}
+            ,#{tmp}
+            ,#{title}
+            ,#{lprice}
             ,NOW()
         )
     </insert>
@@ -124,6 +154,106 @@
             `user`.y &gt; #{y} - 2 AND `user`.y &lt; #{y} + 2
         AND
             `style`.shoes = #{shoesStyle}
+        AND
+            `like`.category2 LIKE '%신발'
+    </select>
+
+
+    <select id="selectTopPriceChartByGA">
+        SELECT
+            `like`.lprice
+        FROM
+            `user`
+        JOIN
+            `like` ON `like`.userId = `user`.id
+        WHERE
+            `user`.gender = #{gender}
+        AND
+            `user`.age BETWEEN (#{age} * 10) AND (#{age} * 10 + 9)
+        AND
+            `like`.category2 LIKE '%의류'
+        AND
+            `like`.category3 LIKE '%셔츠'
+    </select>
+
+    <select id="selectBottomPriceChartByGA">
+        SELECT
+            `like`.lprice
+        FROM
+            `user`
+        JOIN
+            `like` ON `like`.userId = `user`.id
+        WHERE
+            `user`.gender = #{gender}
+        AND
+            `user`.age BETWEEN (#{age} * 10) AND (#{age} * 10 + 9)
+        AND
+            `like`.category3 LIKE '바지'
+        OR
+            `like`.category3 LIKE '스커트'
+    </select>
+
+    <select id="selectShoesPriceChartByGA">
+        SELECT
+            `like`.lprice
+        FROM
+            `user`
+        JOIN
+            `like` ON `like`.userId = `user`.id
+        WHERE
+            `user`.gender = #{gender}
+        AND
+            `user`.age BETWEEN (#{age} * 10) AND (#{age} * 10 + 9)
+        AND
+            `like`.category2 LIKE '%신발'
+    </select>
+
+
+    <select id="selectTopPriceChartByLocation">
+        SELECT
+            `like`.lprice
+        FROM
+            `user`
+        JOIN
+            `like` ON `like`.userId = `user`.id
+        WHERE
+            `user`.x BETWEEN (#{x} - 2) AND (#{x} + 2)
+        AND
+            `user`.y BETWEEN (#{y} - 2) AND (#{y} + 2)
+        AND
+            `like`.category2 LIKE '%의류'
+        AND
+            `like`.category3 LIKE '%셔츠'
+    </select>
+
+    <select id="selectBottomPriceChartByLocation">
+        SELECT
+            `like`.lprice
+        FROM
+            `user`
+        JOIN
+            `like` ON `like`.userId = `user`.id
+        WHERE
+            `user`.x BETWEEN (#{x} - 2) AND (#{x} + 2)
+        AND
+            `user`.y BETWEEN (#{y} - 2) AND (#{y} + 2)
+        AND
+            `like`.category3 LIKE '바지'
+        OR
+            `like`.category3 LIKE '스커트'
+    </select>
+
+    <select id="selectShoesPriceChartByLocation">
+        SELECT
+            `like`.lprice
+        FROM
+            `user`
+        JOIN
+            `like` ON `like`.userId = `user`.id
+        WHERE
+            `user`.x BETWEEN (#{x} - 2) AND (#{x} + 2)
+        AND
+            `user`.y BETWEEN (#{y} - 2) AND (#{y} + 2)
         AND
             `like`.category2 LIKE '%신발'
     </select>

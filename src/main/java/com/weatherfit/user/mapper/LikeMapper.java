@@ -12,12 +12,25 @@ import java.util.List;
 @Mapper
 public interface LikeMapper {
 
-    public int insertProduct(int userId, String link, String image, String title, int lprice, String category1, String category2, String category3);
+    public int insertProduct(Like like);
+
+    public void insertLikeMeta(int userId, int likeId, String gender, int age, int x, int y, double tmp, String title, int lprice);
+
     public List<Like> selectLikeList10(int userId);
     public List<Like> selectLikeList(int userId);
+
     public int delProduct(int likeId);
+
     public List<NearTitleSamplingDTO> selectNearTop(Integer x, Integer y, String topStyle);
     public List<NearTitleSamplingDTO> selectNearBottom(Integer x, Integer y, String bottomStyle);
     public List<NearTitleSamplingDTO> selectNearShoes(Integer x, Integer y, String shoesStyle);
+
+    public List<Integer> selectTopPriceChartByGA(String gender, int age);
+    public List<Integer> selectBottomPriceChartByGA(String gender, int age);
+    public List<Integer> selectShoesPriceChartByGA(String gender, int age);
+
+    public List<Integer> selectTopPriceChartByLocation(int x, int y);
+    public List<Integer> selectBottomPriceChartByLocation(int x, int y);
+    public List<Integer> selectShoesPriceChartByLocation(int x, int y);
 
 }

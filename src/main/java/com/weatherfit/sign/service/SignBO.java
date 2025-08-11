@@ -23,7 +23,7 @@ public class SignBO {
     private final UserBO userBO;
 
 
-    public boolean setUser(String loginId, String password, String name, String email) {
+    public boolean setUser(String loginId, String password, String name, String email, String gender, int age) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String hashedPassword = encoder.encode(password);
 
@@ -32,6 +32,8 @@ public class SignBO {
                             .password(hashedPassword)
                             .name(name)
                             .email(email)
+                            .gender(gender)
+                            .age(age)
                             .build());
         return user != null;
     }

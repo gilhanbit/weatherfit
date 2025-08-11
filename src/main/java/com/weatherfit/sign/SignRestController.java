@@ -41,10 +41,16 @@ public class SignRestController {
             session.setAttribute("userName", user.getName());
             session.setAttribute("userLoginId", user.getLoginId());
             session.setAttribute("userEmail", user.getEmail());
+            session.setAttribute("userGender", user.getGender());
+            session.setAttribute("userAge", user.getAge());
+            session.setAttribute("userX", user.getX());
+            session.setAttribute("userY", user.getY());
 
-            session.setAttribute("top", style.getTop());
-            session.setAttribute("bottom", style.getBottom());
-            session.setAttribute("shoes", style.getShoes());
+            if (style != null) {
+                session.setAttribute("top", style.getTop());
+                session.setAttribute("bottom", style.getBottom());
+                session.setAttribute("shoes", style.getShoes());
+            }
 
             return ApiResponse.onSuccess(SuccessStatus.OK, null);
         } else {
@@ -76,10 +82,12 @@ public class SignRestController {
             @RequestParam("loginId") String loginId,
             @RequestParam("password") String password,
             @RequestParam("name") String name,
-            @RequestParam("email") String email
+            @RequestParam("email") String email,
+            @RequestParam("gender") String gender,
+            @RequestParam("age") int age
     ){
 
-        boolean user = signBO.setUser(loginId, password, name, email);
+        boolean user = signBO.setUser(loginId, password, name, email, gender, age);
 
         if(user == true) {
             return ApiResponse.onSuccess(SuccessStatus.CREATED, null);

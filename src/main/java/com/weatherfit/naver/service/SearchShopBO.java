@@ -7,6 +7,7 @@ import com.weatherfit.naver.domain.SearchShop;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,15 +23,24 @@ public class SearchShopBO {
      * @return
      */
     // user
-    public List<SearchShop> getUserTopList(Double todayTemp, String top,  List<String> nearTop) {
+    public List<SearchShop> getUserTopList(Double todayTemp, String top, List<String> nearTop) {
 
         String topByTemp = OutfitByTemp.topByTemp(todayTemp);
         String nearKeyword = null;
 
         // 중복 키워드 제거
-        for (int i = 0; i < 3; i++) {
-            if (!nearTop.get(i).equals(topByTemp) && !nearTop.get(i).equals(top)) {
-                nearKeyword = nearTop.get(i);
+        if (!nearTop.isEmpty()) {
+            for (int i = 0; i < 2; i++) {
+                if (!nearTop.get(i).equals(topByTemp) || !nearTop.get(i).equals(top)) {
+                    nearKeyword = nearTop.get(i);
+                }
+            }
+        } else {
+            nearTop = new ArrayList<>(List.of("셔츠", "후드티", "반팔"));
+            for (int i = 0; i < 2; i++) {
+                if (!nearTop.get(i).equals(topByTemp) || !nearTop.get(i).equals(top)) {
+                    nearKeyword = nearTop.get(i);
+                }
             }
         }
 
@@ -62,9 +72,18 @@ public class SearchShopBO {
         String nearKeyword = null;
 
         // 중복 키워드 제거
-        for (int i = 0; i < 3; i++) {
-            if (!nearBottom.get(i).equals(bottomByTemp) && !nearBottom.get(i).equals(bottom)) {
-                nearKeyword = nearBottom.get(i);
+        if (!nearBottom.isEmpty()) {
+            for (int i = 0; i < 2; i++) {
+                if (!nearBottom.get(i).equals(bottomByTemp) && !nearBottom.get(i).equals(bottom)) {
+                    nearKeyword = nearBottom.get(i);
+                }
+            }
+        } else {
+            nearBottom = new ArrayList<>(List.of("반바지", "긴바지", "청바지"));
+            for (int i = 0; i < 2; i++) {
+                if (!nearBottom.get(i).equals(bottomByTemp) && !nearBottom.get(i).equals(bottom)) {
+                    nearKeyword = nearBottom.get(i);
+                }
             }
         }
 
@@ -95,9 +114,18 @@ public class SearchShopBO {
         String nearKeyword = null;
 
         // 중복 키워드 제거
-        for (int i = 0; i < 3; i++) {
-            if (!nearShoes.get(i).equals(shoesByTemp) && !nearShoes.get(i).equals(shoes)) {
-                nearKeyword = nearShoes.get(i);
+        if (!nearShoes.isEmpty()) {
+            for (int i = 0; i < 2; i++) {
+                if (!nearShoes.get(i).equals(shoesByTemp) && !nearShoes.get(i).equals(shoes)) {
+                    nearKeyword = nearShoes.get(i);
+                }
+            }
+        } else {
+            nearShoes = new ArrayList<>(List.of("운동화", "워킹화", "샌들"));
+            for (int i = 0; i < 2; i++) {
+                if (!nearShoes.get(i).equals(shoesByTemp) && !nearShoes.get(i).equals(shoes)) {
+                    nearKeyword = nearShoes.get(i);
+                }
             }
         }
 
